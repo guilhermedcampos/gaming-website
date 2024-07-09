@@ -1,0 +1,16 @@
+.symbol {
+    font-size: 36px;
+    line-height: 100px; /* Adjust as needed */
+    height: 100px; /* Should match the line-height for vertical centering */
+    text-align: center;
+}
+
+.reel {
+    width: 100px;
+    height: 300px; /* Height of each reel */
+    overflow: hidden;
+    border: 1px solid black;
+    display: inline-block;
+    vertical-align: top;
+    transition: transform 3s ease; /* Adjust duration to match spinDuration in milliseconds */
+}

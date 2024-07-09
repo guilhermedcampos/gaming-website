@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>5-Reel Slot Machine</title>
+<style>
+    .slot-machine {
+        display: flex; /* Use flexbox to arrange reels side by side */
+        justify-content: center; /* Center the reels horizontally */
+        width: 100%;
+        margin: 50px auto;
+    }
+    .reel {
+        display: inline-block;
+        margin: 0 10px; /* Add some space between reels */
+        width: 100px;
+        height: 300px;
+        border: 1px solid black;
+        overflow: hidden;
+        position: relative;
+    }
+    .symbols {
+        position: absolute;
+        top: 0;
+        width: 100%;
+    }
+    .symbol {
+        font-size: 36px;
+        height: 100px;
+        line-height: 100px; /* Adjust as needed */
+        text-align: center;
+    }
+    @keyframes spin {
+        0% { transform: translateY(0); }
+        100% { transform: translateY(-100%); }
+    }
+    .button-container {
+        text-align: center; /* Center the button container */
+        margin-top: 20px;
+    }
+    #spinButton {
+        font-size: 18px;
+        padding: 10px 20px;
+    }
+</style>
+</head>
+<body>
+<div class="slot-machine">
+    <div class="reel" id="reel1"><div class="symbols"></div></div>
+    <div class="reel" id="reel2"><div class="symbols"></div></div>
+    <div class="reel" id="reel3"><div class="symbols"></div></div>
+    <div class="reel" id="reel4"><div class="symbols"></div></div>
+    <div class="reel" id="reel5"><div class="symbols"></div></div>
+</div>
+
+<div class="button-container">
+    <button id="spinButton">SPIN</button>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
