@@ -27,6 +27,11 @@ $(document).ready(function() {
         $('#coinCount').text(coins);
     }
 
+    // Function to enable or disable the spin button
+    function setSpinButtonState(enabled) {
+        $('#spinButton').prop('disabled', !enabled);
+    }
+
     // Function to generate a weighted array of symbols based on probabilities
     function generateWeightedSymbolArray() {
         let weightedSymbols = [];
@@ -105,6 +110,7 @@ $(document).ready(function() {
     $('#spinButton').click(function() {
         if (!spinning && coins >= spinCost) {
             spinning = true;
+            setSpinButtonState(false); // Disable the spin button during the spin
             coins -= spinCost; // Deduct cost per spin
             updateCoinDisplay();
             finalSymbolsArray = []; // Reset the final symbols array
@@ -118,6 +124,7 @@ $(document).ready(function() {
 
             setTimeout(function() {
                 spinning = false;
+                setSpinButtonState(true); // Enable the spin button after the spin
                 console.log("Final symbols: ", finalSymbolsArray);
                 // Here you can use finalSymbolsArray to determine line combinations and give prizes
             }, spinDuration);
