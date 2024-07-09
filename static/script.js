@@ -4,14 +4,14 @@ $(document).ready(function() {
     const spinDuration = 3000; // Duration for each spin (in milliseconds)
     const symbolHeight = 100; // Height of each symbol (in pixels)
     const reelCount = 5; // Number of reels
+    const symbolsPerReel = 30; // Number of symbols per reel to simulate rolling effect
 
     let spinning = false;
 
     // Function to generate a large array of symbols for a reel
     function generateSymbolArray() {
         let symbolArray = [];
-        // Generate a large number of symbols to create a rolling effect
-        for (let i = 0; i < 30; i++) {
+        for (let i = 0; i < symbolsPerReel; i++) {
             let randomIndex = Math.floor(Math.random() * numSymbols);
             symbolArray.push(symbols[randomIndex]);
         }
@@ -42,9 +42,9 @@ $(document).ready(function() {
         // Calculate the total height of the symbols container
         let totalHeight = totalSymbols * symbolHeight * 3;
 
+        // Start the animation
         $symbolsContainer.css({
-            'animation': `spin ${spinDuration}ms linear infinite`,
-            'transform': `translateY(0)`
+            'animation': `spin ${spinDuration}ms linear infinite`
         });
 
         // Stop animation after spinDuration and display the final symbols
