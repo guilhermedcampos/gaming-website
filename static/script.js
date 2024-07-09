@@ -1,6 +1,17 @@
 $(document).ready(function() {
-    const symbols = ['J', 'K', 'Q', 'A', '10', 'SYM1', 'SYM2', 'SYM3', 'SYM4'];
-    const numSymbols = symbols.length;
+    const symbols = ['10', 'A', 'Q', 'K', 'J', 'SYM1', 'SYM2', 'SYM3', 'SYM4'];
+    const probabilities = {
+        '10': 2,
+        'A': 2,
+        'Q': 2,
+        'K': 2,
+        'J': 2,
+        'SYM1': 1,
+        'SYM2': 1,
+        'SYM3': 1,
+        'SYM4': 0.3
+    };
+
     const spinDuration = 3000; // Duration for each spin (in milliseconds)
     const symbolHeight = 100; // Height of each symbol (in pixels)
     const reelCount = 5; // Number of reels
@@ -9,12 +20,27 @@ $(document).ready(function() {
     let spinning = false;
     let finalSymbolsArray = []; // Array to store final symbols of each reel
 
+    // Function to generate a weighted array of symbols based on probabilities
+    function generateWeightedSymbolArray() {
+        let weightedSymbols = [];
+
+        for (let symbol in probabilities) {
+            let count = probabilities[symbol] * 10; // Scale probabilities for better distribution
+            for (let i = 0; i < count; i++) {
+                weightedSymbols.push(symbol);
+            }
+        }
+
+        return weightedSymbols;
+    }
+
     // Function to generate a large array of symbols for a reel
     function generateSymbolArray() {
+        let weightedSymbols = generateWeightedSymbolArray();
         let symbolArray = [];
         for (let i = 0; i < symbolsPerReel; i++) {
-            let randomIndex = Math.floor(Math.random() * numSymbols);
-            symbolArray.push(symbols[randomIndex]);
+            let randomIndex = Math.floor(Math.random() * weightedSymbols.length);
+            symbolArray.push(weightedSymbols[randomIndex]);
         }
         return symbolArray;
     }
