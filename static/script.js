@@ -1,11 +1,11 @@
 $(document).ready(function() {
     const symbols = ['10', 'A', 'Q', 'K', 'J', 'SYM1', 'SYM2', 'SYM3', 'SYM4'];
     const probabilities = {
-        '10': 2,
-        'A': 2,
-        'Q': 2,
-        'K': 2,
-        'J': 2,
+        '10': 3,
+        'A': 3,
+        'Q': 3,
+        'K': 3,
+        'J': 3,
         'SYM1': 1,
         'SYM2': 1,
         'SYM3': 1,
@@ -16,9 +16,16 @@ $(document).ready(function() {
     const symbolHeight = 100; // Height of each symbol (in pixels)
     const reelCount = 5; // Number of reels
     const symbolsPerReel = 30; // Number of symbols per reel to simulate rolling effect
+    const spinCost = 10; // Cost per spin in coins
 
     let spinning = false;
     let finalSymbolsArray = []; // Array to store final symbols of each reel
+    let coins = 0; // Initial coin count
+
+    // Function to update coin display
+    function updateCoinDisplay() {
+        $('#coinCount').text(coins);
+    }
 
     // Function to generate a weighted array of symbols based on probabilities
     function generateWeightedSymbolArray() {
@@ -96,8 +103,10 @@ $(document).ready(function() {
 
     // Spin button click event
     $('#spinButton').click(function() {
-        if (!spinning) {
+        if (!spinning && coins >= spinCost) {
             spinning = true;
+            coins -= spinCost; // Deduct cost per spin
+            updateCoinDisplay();
             finalSymbolsArray = []; // Reset the final symbols array
 
             // Generate symbol arrays for each reel
@@ -112,6 +121,17 @@ $(document).ready(function() {
                 console.log("Final symbols: ", finalSymbolsArray);
                 // Here you can use finalSymbolsArray to determine line combinations and give prizes
             }, spinDuration);
+        } else if (coins < spinCost) {
+            alert("Not enough coins to spin!");
         }
     });
+
+    // Increment coins button click event
+    $('#incrementCoinsButton').click(function() {
+        coins += 10; // Add 10 coins (10 cents)
+        updateCoinDisplay();
+    });
+
+    // Initial coin display update
+    updateCoinDisplay();
 });
