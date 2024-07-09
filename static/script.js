@@ -7,6 +7,7 @@ $(document).ready(function() {
     const symbolsPerReel = 30; // Number of symbols per reel to simulate rolling effect
 
     let spinning = false;
+    let finalSymbolsArray = []; // Array to store final symbols of each reel
 
     // Function to generate a large array of symbols for a reel
     function generateSymbolArray() {
@@ -28,7 +29,7 @@ $(document).ready(function() {
     }
 
     // Function to animate a single reel
-    function animateReel(reelId, symbolArray) {
+    function animateReel(reelId, symbolArray, reelIndex) {
         let $symbolsContainer = $('#' + reelId + ' .symbols');
         let totalSymbols = symbolArray.length;
 
@@ -52,8 +53,18 @@ $(document).ready(function() {
             $symbolsContainer.css('animation', 'none');
             let stopIndex = Math.floor(Math.random() * (totalSymbols - 3));
             let finalSymbols = symbolArray.slice(stopIndex, stopIndex + 3);
-            displaySymbols(reelId, finalSymbols);
-            $symbolsContainer.css('transform', `translateY(-${stopIndex * symbolHeight}px)`);
+
+            // Store the final symbols in the finalSymbolsArray
+            finalSymbolsArray[reelIndex] = finalSymbols;
+
+            // Ensure the final symbols are displayed correctly
+            $symbolsContainer.empty();
+            finalSymbols.forEach(function(symbol) {
+                $symbolsContainer.append('<div class="symbol">' + symbol + '</div>');
+            });
+
+            // Adjust the position to display the final symbols
+            $symbolsContainer.css('transform', `translateY(0)`);
         }, spinDuration);
     }
 
@@ -61,15 +72,19 @@ $(document).ready(function() {
     $('#spinButton').click(function() {
         if (!spinning) {
             spinning = true;
+            finalSymbolsArray = []; // Reset the final symbols array
+
             // Generate symbol arrays for each reel
             for (let i = 1; i <= reelCount; i++) {
                 let symbolArray = generateSymbolArray();
                 displaySymbols('reel' + i, symbolArray);
-                animateReel('reel' + i, symbolArray);
+                animateReel('reel' + i, symbolArray, i - 1);
             }
 
             setTimeout(function() {
                 spinning = false;
+                console.log("Final symbols: ", finalSymbolsArray);
+                // Here you can use finalSymbolsArray to determine line combinations and give prizes
             }, spinDuration);
         }
     });
