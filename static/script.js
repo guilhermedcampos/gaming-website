@@ -106,6 +106,44 @@ $(document).ready(function() {
         }, spinDuration);
     }
 
+    // Function to evaluate bonuses and calculate rewards
+    function evaluateBonuses() {
+        let totalReward = 0;
+        const rewards = {
+            '10': { 3: 10, 4: 25, 5: 100 },
+            'A': { 3: 10, 4: 25, 5: 100 },
+            'Q': { 3: 10, 4: 25, 5: 100 },
+            'K': { 3: 10, 4: 25, 5: 100 },
+            'J': { 3: 10, 4: 25, 5: 100 },
+            'SYM1': { 2: 10, 3: 50, 4: 150, 5: 2000 },
+            'SYM2': { 2: 10, 3: 50, 4: 150, 5: 2000 },
+            'SYM3': { 2: 10, 3: 50, 4: 150, 5: 2000 },
+            'SYM4': { 2: 40, 3: 250, 4: 2000, 5: 5000 }
+        };
+
+        // Iterate over each row
+        for (let row = 0; row < 3; row++) {
+            // Check for consecutive symbols starting from the first reel
+            let startSymbol = finalSymbolsArray[0][row];
+            if (!startSymbol) continue;
+
+            let count = 1;
+            for (let col = 1; col < reelCount; col++) {
+                if (finalSymbolsArray[col][row] === startSymbol) {
+                    count++;
+                } else {
+                    break;
+                }
+            }
+
+            if (rewards[startSymbol] && rewards[startSymbol][count]) {
+                totalReward += rewards[startSymbol][count];
+            }
+        }
+
+        return totalReward;
+    }
+
     // Spin button click event
     $('#spinButton').click(function() {
         if (!spinning && coins >= spinCost) {
@@ -126,7 +164,14 @@ $(document).ready(function() {
                 spinning = false;
                 setSpinButtonState(true); // Enable the spin button after the spin
                 console.log("Final symbols: ", finalSymbolsArray);
-                // Here you can use finalSymbolsArray to determine line combinations and give prizes
+
+                // Evaluate bonuses and update coins
+                let reward = evaluateBonuses();
+                if (reward > 0) {
+                    coins += reward;
+                    alert("You won " + reward + " coins!");
+                    updateCoinDisplay();
+                }
             }, spinDuration);
         } else if (coins < spinCost) {
             alert("Not enough coins to spin!");
