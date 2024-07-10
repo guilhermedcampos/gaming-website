@@ -170,7 +170,8 @@ $(document).ready(function() {
     function highlightDiagonalWin(startRow, count, isDescending) {
         for (let i = 0; i < count; i++) {
             let rowIndex = isDescending ? startRow + i : startRow - i;
-            $(`.reel:eq(${i}) .symbols .symbol`).eq(rowIndex + 20).addClass('winning-diagonal');
+            let diagonalClass = isDescending ? 'winning-diagonal-desc' : 'winning-diagonal-asc';
+            $(`.reel:eq(${i}) .symbols .symbol`).eq(rowIndex + 20).addClass(diagonalClass);
         }
     }
 
