@@ -103,12 +103,16 @@ $(document).ready(function() {
 
             // Adjust the position to display the final symbols
             $symbolsContainer.css('transform', `translateY(0)`);
+
+            // Highlight winning line if there is a reward
+            highlightWinningLine();
         }, spinDuration);
     }
 
     // Function to evaluate bonuses and calculate rewards
     function evaluateBonuses() {
         let totalReward = 0;
+        let winningLine = { symbol: '', positions: [] };
         const rewards = {
             '10': { 3: 10, 4: 25, 5: 100 },
             'A': { 3: 10, 4: 25, 5: 100 },
@@ -128,20 +132,43 @@ $(document).ready(function() {
             if (!startSymbol) continue;
 
             let count = 1;
+            let positions = [{ reel: 0, row }];
+
             for (let col = 1; col < reelCount; col++) {
                 if (finalSymbolsArray[col][row] === startSymbol) {
                     count++;
+                    positions.push({ reel: col, row });
                 } else {
                     break;
                 }
             }
 
+            // Check for rewards based on the count of consecutive symbols
             if (rewards[startSymbol] && rewards[startSymbol][count]) {
                 totalReward += rewards[startSymbol][count];
+                if (count >= 2 && count <= 5) {
+                    winningLine.symbol = startSymbol;
+                    winningLine.positions = positions;
+                }
             }
         }
 
-        return totalReward;
+        return { totalReward, winningLine };
+    }
+
+    // Function to highlight the winning line
+    function highlightWinningLine() {
+        let { symbol, positions } = evaluateBonuses().winningLine;
+        
+        // Remove existing highlights
+        $('.symbol').removeClass('winning');
+
+        // Highlight symbols in the winning line
+        if (symbol && positions.length > 0) {
+            positions.forEach(pos => {
+                $(`#reel${pos.reel + 1} .symbols .symbol:eq(${pos.row})`).addClass('winning');
+            });
+        }
     }
 
     // Spin button click event
@@ -166,10 +193,10 @@ $(document).ready(function() {
                 console.log("Final symbols: ", finalSymbolsArray);
 
                 // Evaluate bonuses and update coins
-                let reward = evaluateBonuses();
-                if (reward > 0) {
-                    coins += reward;
-                    alert("You won " + reward + " coins!");
+                let { totalReward } = evaluateBonuses();
+                if (totalReward > 0) {
+                    coins += totalReward;
+                    alert("You won " + totalReward + " coins!");
                     updateCoinDisplay();
                 }
             }, spinDuration);
@@ -178,7 +205,7 @@ $(document).ready(function() {
         }
     });
 
-    // Increment coins button click event
+    // Increment coins button click event (for testing purposes)
     $('#incrementCoinsButton').click(function() {
         coins += 10; // Add 10 coins (10 cents)
         updateCoinDisplay();

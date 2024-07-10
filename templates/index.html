@@ -12,7 +12,7 @@
     }
     .reel {
         display: inline-block;
-        margin: 0px; /* Reduce the space between reels */
+        margin: 0px; /* Reduced space between reels */
         width: 100px;
         height: 300px;
         border: 1px solid black;
@@ -30,27 +30,25 @@
         line-height: 100px; /* Adjust as needed */
         text-align: center;
     }
+    .symbol.winning {
+        outline: 2px solid green; /* Green outline for winning symbols */
+    }
     @keyframes spin {
         0% { transform: translateY(0); }
         100% { transform: translateY(-100%); }
     }
-    .button-container {
-        text-align: center; /* Center the button container */
-        margin-top: 20px;
-    }
     #spinButton, #incrementCoinsButton {
-        font-size: 18px;
-        padding: 10px 20px;
-        margin: 10px;
+        display: block;
+        margin: 20px auto; /* Center the buttons */
     }
-    .coin-display {
+    #coinCount {
         text-align: center;
-        font-size: 18px;
-        margin-top: 20px;
+        margin: 10px;
     }
 </style>
 </head>
 <body>
+<div id="coinCount">0</div>
 <div class="slot-machine">
     <div class="reel" id="reel1"><div class="symbols"></div></div>
     <div class="reel" id="reel2"><div class="symbols"></div></div>
@@ -58,16 +56,8 @@
     <div class="reel" id="reel4"><div class="symbols"></div></div>
     <div class="reel" id="reel5"><div class="symbols"></div></div>
 </div>
-
-<div class="button-container">
-    <button id="spinButton">SPIN</button>
-    <button id="incrementCoinsButton">Add 10 Coins</button>
-</div>
-
-<div class="coin-display">
-    Coins: <span id="coinCount">0</span>
-</div>
-
+<button id="spinButton">SPIN</button>
+<button id="incrementCoinsButton">Add 10 Coins</button>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>

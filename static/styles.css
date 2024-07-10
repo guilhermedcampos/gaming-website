@@ -14,3 +14,8 @@
     vertical-align: top;
     transition: transform 3s ease; /* Adjust duration to match spinDuration in milliseconds */
 }
+
+.symbol.winning {
+    outline: 2px solid green; /* Green outline for winning symbols */
+}
+
