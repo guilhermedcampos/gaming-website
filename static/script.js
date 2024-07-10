@@ -1,118 +1,80 @@
 $(document).ready(function() {
-    const symbols = ['10', 'A', 'Q', 'K', 'J', 'SYM1', 'SYM2', 'SYM3', 'SYM4'];
-    const probabilities = {
-        '10': 3,
-        'A': 3,
-        'Q': 3,
-        'K': 3,
-        'J': 3,
-        'SYM1': 1,
-        'SYM2': 1,
-        'SYM3': 1,
-        'SYM4': 0.3
-    };
-
-    const spinDuration = 3000; // Duration for each spin (in milliseconds)
-    const symbolHeight = 100; // Height of each symbol (in pixels)
-    const reelCount = 5; // Number of reels
-    const symbolsPerReel = 30; // Number of symbols per reel to simulate rolling effect
-    const spinCost = 10; // Cost per spin in coins
-
+    const symbols = ['J', 'K', 'Q', 'A', '10', 'SYM1', 'SYM2', 'SYM3', 'SYM4'];
+    let coinCount = 0;
     let spinning = false;
-    let finalSymbolsArray = []; // Array to store final symbols of each reel
-    let coins = 0; // Initial coin count
+    const reelCount = 5;
+    const finalSymbolsArray = Array.from({ length: reelCount }, () => Array(3).fill(''));
 
-    // Function to update coin display
-    function updateCoinDisplay() {
-        $('#coinCount').text(coins);
+    function updateCoinCount() {
+        $('#coinCount').text(coinCount);
     }
 
-    // Function to enable or disable the spin button
-    function setSpinButtonState(enabled) {
-        $('#spinButton').prop('disabled', !enabled);
-    }
+    $('#incrementCoinsButton').click(function() {
+        coinCount += 10;
+        updateCoinCount();
+    });
 
-    // Function to generate a weighted array of symbols based on probabilities
-    function generateWeightedSymbolArray() {
-        let weightedSymbols = [];
+    $('#spinButton').click(function() {
+        if (coinCount < 10 || spinning) return;
 
-        for (let symbol in probabilities) {
-            let count = probabilities[symbol] * 10; // Scale probabilities for better distribution
-            for (let i = 0; i < count; i++) {
-                weightedSymbols.push(symbol);
+        coinCount -= 10;
+        updateCoinCount();
+        spinning = true;
+        $('#spinButton').prop('disabled', true);
+
+        const reels = $('.reel .symbols');
+        const probabilities = generateProbabilities();
+
+        function spinReel(reelIndex, spinTime) {
+            const symbolsContainer = $(reels[reelIndex]);
+            let newSymbols = [];
+
+            for (let i = 0; i < 30; i++) {
+                let randomSymbol = getRandomSymbol(probabilities);
+                newSymbols.push(`<div class="symbol">${randomSymbol}</div>`);
             }
-        }
 
-        return weightedSymbols;
-    }
+            symbolsContainer.html(newSymbols.join(''));
+            symbolsContainer.css('top', '0');
 
-    // Function to generate a large array of symbols for a reel
-    function generateSymbolArray() {
-        let weightedSymbols = generateWeightedSymbolArray();
-        let symbolArray = [];
-        for (let i = 0; i < symbolsPerReel; i++) {
-            let randomIndex = Math.floor(Math.random() * weightedSymbols.length);
-            symbolArray.push(weightedSymbols[randomIndex]);
-        }
-        return symbolArray;
-    }
+            symbolsContainer.animate({ top: '-3000px' }, spinTime, 'linear', function() {
+                let finalSymbols = [];
+                for (let i = 0; i < 3; i++) {
+                    let symbol = $(this).children().eq(i + 27).text();
+                    finalSymbols.push(symbol);
+                }
 
-    // Function to display symbols on a reel
-    function displaySymbols(reelId, symbolArray) {
-        let $symbolsContainer = $('#' + reelId + ' .symbols');
-        $symbolsContainer.empty();
-        symbolArray.forEach(function(symbol) {
-            $symbolsContainer.append('<div class="symbol">' + symbol + '</div>');
-        });
-    }
+                finalSymbolsArray[reelIndex] = finalSymbols;
 
-    // Function to animate a single reel
-    function animateReel(reelId, symbolArray, reelIndex) {
-        let $symbolsContainer = $('#' + reelId + ' .symbols');
-        let totalSymbols = symbolArray.length;
-
-        // Create a continuous animation by appending the symbol array multiple times
-        for (let i = 0; i < 3; i++) {
-            symbolArray.forEach(function(symbol) {
-                $symbolsContainer.append('<div class="symbol">' + symbol + '</div>');
+                if (reelIndex === reelCount - 1) {
+                    spinning = false;
+                    $('#spinButton').prop('disabled', false);
+                    const reward = evaluateBonuses();
+                    coinCount += reward;
+                    updateCoinCount();
+                }
             });
         }
 
-        // Calculate the total height of the symbols container
-        let totalHeight = totalSymbols * symbolHeight * 3;
+        for (let i = 0; i < reelCount; i++) {
+            spinReel(i, 2000 + i * 500); // Increasing delay for each reel
+        }
+    });
 
-        // Start the animation
-        $symbolsContainer.css({
-            'animation': `spin ${spinDuration}ms linear infinite`
-        });
-
-        // Stop animation after spinDuration and display the final symbols
-        setTimeout(function() {
-            $symbolsContainer.css('animation', 'none');
-            let stopIndex = Math.floor(Math.random() * (totalSymbols - 3));
-            let finalSymbols = symbolArray.slice(stopIndex, stopIndex + 3);
-
-            // Store the final symbols in the finalSymbolsArray
-            finalSymbolsArray[reelIndex] = finalSymbols;
-
-            // Ensure the final symbols are displayed correctly
-            $symbolsContainer.empty();
-            finalSymbols.forEach(function(symbol) {
-                $symbolsContainer.append('<div class="symbol">' + symbol + '</div>');
-            });
-
-            // Adjust the position to display the final symbols
-            $symbolsContainer.css('transform', `translateY(0)`);
-
-            // Highlight winning line if there is a reward
-            highlightWinningLine();
-        }, spinDuration);
+    function generateProbabilities() {
+        const probabilities = [];
+        for (let i = 0; i < 10; i++) probabilities.push('10', 'A', 'Q', 'K', 'J');
+        for (let i = 0; i < 3; i++) probabilities.push('SYM1', 'SYM2', 'SYM3');
+        for (let i = 0; i < 1; i++) probabilities.push('SYM4');
+        return probabilities;
     }
 
-    // Function to evaluate bonuses and calculate rewards
+    function getRandomSymbol(probabilities) {
+        return probabilities[Math.floor(Math.random() * probabilities.length)];
+    }
+
     function evaluateBonuses() {
         let totalReward = 0;
-        let winningLine = { symbol: '', positions: [] };
         const rewards = {
             '10': { 3: 10, 4: 25, 5: 100 },
             'A': { 3: 10, 4: 25, 5: 100 },
@@ -125,92 +87,31 @@ $(document).ready(function() {
             'SYM4': { 2: 40, 3: 250, 4: 2000, 5: 5000 }
         };
 
-        // Iterate over each row
         for (let row = 0; row < 3; row++) {
-            // Check for consecutive symbols starting from the first reel
             let startSymbol = finalSymbolsArray[0][row];
             if (!startSymbol) continue;
 
             let count = 1;
-            let positions = [{ reel: 0, row }];
-
             for (let col = 1; col < reelCount; col++) {
                 if (finalSymbolsArray[col][row] === startSymbol) {
                     count++;
-                    positions.push({ reel: col, row });
                 } else {
                     break;
                 }
             }
 
-            // Check for rewards based on the count of consecutive symbols
             if (rewards[startSymbol] && rewards[startSymbol][count]) {
+                highlightWinningLine(row, count);
                 totalReward += rewards[startSymbol][count];
-                if (count >= 2 && count <= 5) {
-                    winningLine.symbol = startSymbol;
-                    winningLine.positions = positions;
-                }
             }
         }
 
-        return { totalReward, winningLine };
+        return totalReward;
     }
 
-    // Function to highlight the winning line
-    function highlightWinningLine() {
-        let { symbol, positions } = evaluateBonuses().winningLine;
-        
-        // Remove existing highlights
-        $('.symbol').removeClass('winning');
-
-        // Highlight symbols in the winning line
-        if (symbol && positions.length > 0) {
-            positions.forEach(pos => {
-                $(`#reel${pos.reel + 1} .symbols .symbol:eq(${pos.row})`).addClass('winning');
-            });
+    function highlightWinningLine(row, count) {
+        for (let col = 0; col < count; col++) {
+            $(`.reel:eq(${col}) .symbols .symbol`).eq(row + 27).addClass('winning');
         }
     }
-
-    // Spin button click event
-    $('#spinButton').click(function() {
-        if (!spinning && coins >= spinCost) {
-            spinning = true;
-            setSpinButtonState(false); // Disable the spin button during the spin
-            coins -= spinCost; // Deduct cost per spin
-            updateCoinDisplay();
-            finalSymbolsArray = []; // Reset the final symbols array
-
-            // Generate symbol arrays for each reel
-            for (let i = 1; i <= reelCount; i++) {
-                let symbolArray = generateSymbolArray();
-                displaySymbols('reel' + i, symbolArray);
-                animateReel('reel' + i, symbolArray, i - 1);
-            }
-
-            setTimeout(function() {
-                spinning = false;
-                setSpinButtonState(true); // Enable the spin button after the spin
-                console.log("Final symbols: ", finalSymbolsArray);
-
-                // Evaluate bonuses and update coins
-                let { totalReward } = evaluateBonuses();
-                if (totalReward > 0) {
-                    coins += totalReward;
-                    alert("You won " + totalReward + " coins!");
-                    updateCoinDisplay();
-                }
-            }, spinDuration);
-        } else if (coins < spinCost) {
-            alert("Not enough coins to spin!");
-        }
-    });
-
-    // Increment coins button click event (for testing purposes)
-    $('#incrementCoinsButton').click(function() {
-        coins += 10; // Add 10 coins (10 cents)
-        updateCoinDisplay();
-    });
-
-    // Initial coin display update
-    updateCoinDisplay();
 });
