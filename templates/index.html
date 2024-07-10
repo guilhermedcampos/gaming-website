@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <title>5-Reel Slot Machine</title>
 <style>
+    body {
+        background-image: url("{{ url_for('static', filename='images/background.png') }}");
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
     .slot-machine-container {
         display: flex;
         flex-direction: column;
@@ -12,7 +18,7 @@
         padding: 10px;
         border: 2px solid green;
         border-radius: 10px;
-        width: 55%; /* Adjusted width */
+        width: 50%; /* Adjusted width */
         margin: 50px auto;
     }
 
