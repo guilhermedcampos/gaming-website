@@ -4,73 +4,76 @@
 <meta charset="UTF-8">
 <title>5-Reel Slot Machine</title>
 <style>
-    /* Global styles */
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f0f0f0;
-        margin: 0;
-        padding: 0;
-    }
-    .container {
+    .slot-machine-container {
         display: flex;
         flex-direction: column;
         align-items: center;
         background-color: lightgreen;
-        padding: 20px;
+        padding: 10px;
+        border: 2px solid green;
         border-radius: 10px;
+        width: 55%; /* Adjusted width */
         margin: 50px auto;
-        width: fit-content;
     }
-    #totalRewards, #totalSpent {
-        font-size: 18px;
-        margin-bottom: 10px;
-    }
+
     .slot-machine {
-        display: flex; /* Use flexbox to arrange reels side by side */
-        justify-content: center; /* Center the reels horizontally */
+        display: flex;
+        justify-content: center;
         width: 100%;
+        margin-bottom: 10px; /* Adjusted margin */
     }
+
     .reel {
         display: inline-block;
-        margin: 0px; /* Reduced space between reels */
-        width: 150px; /* Increased width */
-        height: 450px; /* Increased height */
+        width: 150px;
+        height: 450px;
         border: 1px solid black;
         overflow: hidden;
         position: relative;
     }
+
     .symbols {
         position: absolute;
         top: 0;
         width: 100%;
     }
+
     .symbol {
-        font-size: 48px; /* Increased font size */
-        height: 150px; /* Increased height */
-        line-height: 150px; /* Adjusted to match the height */
+        font-size: 48px;
+        height: 150px;
+        line-height: 150px;
         text-align: center;
     }
+
     .symbol.winning {
-        outline: 2px solid green; /* Green outline for winning symbols */
+        outline: 2px solid green;
     }
-    @keyframes spin {
-        0% { transform: translateY(0); }
-        100% { transform: translateY(-100%); }
-    }
+
     #spinButton, #incrementCoinsButton {
         display: block;
-        margin: 20px auto; /* Center the buttons */
+        margin: 10px auto;
     }
-    #coinCount {
+
+    #coinCount, #totalRewards, #totalSpent {
         text-align: center;
-        margin: 10px;
+        margin: 5px 0; /* Adjusted margin */
+    }
+
+    .session-info {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        margin-bottom: 5px; /* Adjusted margin */
     }
 </style>
 </head>
 <body>
-<div class="container">
-    <div id="totalRewards">Total Rewards: 0</div>
-    <div id="totalSpent">Total Spent: 0</div>
+<div class="slot-machine-container">
+    <div class="session-info">
+        <div id="totalRewards">Total Rewards: 0</div>
+        <div id="totalSpent">Total Spent: 0</div>
+    </div>
+    <div id="coinCount">0</div>
     <div class="slot-machine">
         <div class="reel" id="reel1"><div class="symbols"></div></div>
         <div class="reel" id="reel2"><div class="symbols"></div></div>
@@ -78,10 +81,9 @@
         <div class="reel" id="reel4"><div class="symbols"></div></div>
         <div class="reel" id="reel5"><div class="symbols"></div></div>
     </div>
+    <button id="spinButton">SPIN</button>
+    <button id="incrementCoinsButton">Add 10 Coins</button>
 </div>
-<button id="spinButton">SPIN</button>
-<button id="incrementCoinsButton">Add 10 Coins</button>
-<div id="coinCount">0</div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
