@@ -101,6 +101,7 @@ $(document).ready(function() {
             'SYM4': { 2: 40, 3: 250, 4: 2000, 5: 5000 }
         };
 
+        // Check for horizontal wins
         for (let row = 0; row < 3; row++) {
             let startSymbol = finalSymbolsArray[0][row];
             if (!startSymbol) continue;
@@ -117,7 +118,43 @@ $(document).ready(function() {
             if (rewards[startSymbol] && rewards[startSymbol][count]) {
                 highlightWinningLine(row, count);
                 totalReward += rewards[startSymbol][count];
-                console.log(`Winning line: Row ${row}, Symbol ${startSymbol}, Count ${count}, Reward ${rewards[startSymbol][count]}`);
+                console.log(`Horizontal win: Row ${row}, Symbol ${startSymbol}, Count ${count}, Reward ${rewards[startSymbol][count]}`);
+            }
+        }
+
+        // Check for diagonal wins (top-left to bottom-right)
+        let startSymbol = finalSymbolsArray[0][0];
+        if (startSymbol) {
+            let count = 1;
+            for (let i = 1; i < reelCount && i < 3; i++) {
+                if (finalSymbolsArray[i][i] === startSymbol) {
+                    count++;
+                } else {
+                    break;
+                }
+            }
+            if (rewards[startSymbol] && rewards[startSymbol][count]) {
+                highlightDiagonalWin(0, count, true);
+                totalReward += rewards[startSymbol][count];
+                console.log(`Diagonal win (\\): Symbol ${startSymbol}, Count ${count}, Reward ${rewards[startSymbol][count]}`);
+            }
+        }
+
+        // Check for diagonal wins (bottom-left to top-right)
+        startSymbol = finalSymbolsArray[0][2];
+        if (startSymbol) {
+            let count = 1;
+            for (let i = 1; i < reelCount && i < 3; i++) {
+                if (finalSymbolsArray[i][2 - i] === startSymbol) {
+                    count++;
+                } else {
+                    break;
+                }
+            }
+            if (rewards[startSymbol] && rewards[startSymbol][count]) {
+                highlightDiagonalWin(2, count, false);
+                totalReward += rewards[startSymbol][count];
+                console.log(`Diagonal win (/): Symbol ${startSymbol}, Count ${count}, Reward ${rewards[startSymbol][count]}`);
             }
         }
 
@@ -127,6 +164,13 @@ $(document).ready(function() {
     function highlightWinningLine(row, count) {
         for (let col = 0; col < count; col++) {
             $(`.reel:eq(${col}) .symbols .symbol`).eq(row + 20).addClass('winning-line');
+        }
+    }
+
+    function highlightDiagonalWin(startRow, count, isDescending) {
+        for (let i = 0; i < count; i++) {
+            let rowIndex = isDescending ? startRow + i : startRow - i;
+            $(`.reel:eq(${i}) .symbols .symbol`).eq(rowIndex + 20).addClass('winning-diagonal');
         }
     }
 
