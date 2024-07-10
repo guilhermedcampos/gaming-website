@@ -12,8 +12,8 @@ $(document).ready(function() {
     }
 
     function updateSessionInfo() {
-        $('#totalRewards').text(`Total Rewards: ${totalRewards}`);
-        $('#totalSpent').text(`Total Spent: ${totalSpent}`);
+        $('#totalRewards').text('Total Rewards: ' + totalRewards);
+        $('#totalSpent').text('Total Spent: ' + totalSpent);
     }
 
     $('#incrementCoinsButton').click(function() {
@@ -71,7 +71,7 @@ $(document).ready(function() {
         }
 
         for (let i = 0; i < reelCount; i++) {
-            spinReel(i, 1000 + i * 300); // Reduced duration for faster spinning
+            spinReel(i, 1000 + i * 300);
         }
     });
 
@@ -116,9 +116,8 @@ $(document).ready(function() {
 
             if (rewards[startSymbol] && rewards[startSymbol][count]) {
                 highlightWinningLine(row, count);
-                let rewardAmount = rewards[startSymbol][count];
-                totalReward += rewardAmount;
-                console.log(`You won ${rewardAmount} coins with symbol ${startSymbol}!`);
+                totalReward += rewards[startSymbol][count];
+                console.log(`Winning line: Row ${row}, Symbol ${startSymbol}, Count ${count}, Reward ${rewards[startSymbol][count]}`);
             }
         }
 
@@ -127,28 +126,15 @@ $(document).ready(function() {
 
     function highlightWinningLine(row, count) {
         for (let col = 0; col < count; col++) {
-            $(`.reel:eq(${col}) .symbols .symbol`).eq(row + 27).addClass('winning');
+            $(`.reel:eq(${col}) .symbols .symbol`).eq(row + 20).addClass('winning-line');
         }
     }
 
     function printFinalSymbols() {
-        let reelsString = '';
-        const reels = $('.reel .symbols');
-    
-        for (let i = 0; i < reelCount; i++) {
-            let finalSymbols = [];
-            const symbolsContainer = $(reels[i]);
-    
-            // Collect the final symbols displayed in the current reel
-            symbolsContainer.children('.symbol').each(function() {
-                finalSymbols.push($(this).text());
-            });
-    
-            reelsString += `R${i + 1}: (${finalSymbols.join(', ')}) `;
-        }
-    
-        console.log(reelsString);
-        console.log(finalSymbolsArray);
+        let output = "";
+        finalSymbolsArray.forEach((reel, index) => {
+            output += `R${index + 1}: (${reel.join(', ')}) `;
+        });
+        console.log(output);
     }
-    
 });

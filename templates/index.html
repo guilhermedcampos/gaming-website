@@ -8,6 +8,11 @@
         background-image: url("{{ url_for('static', filename='images/background.png') }}");
         background-size: cover;
         background-repeat: no-repeat;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
     }
 
     .slot-machine-container {
@@ -18,15 +23,15 @@
         padding: 10px;
         border: 2px solid green;
         border-radius: 10px;
-        width: 50%; /* Adjusted width */
-        margin: 50px auto;
+        width: 50%;
+        max-width: 800px;
     }
 
     .slot-machine {
         display: flex;
         justify-content: center;
         width: 100%;
-        margin-bottom: 10px; /* Adjusted margin */
+        margin-bottom: 10px;
     }
 
     .reel {
@@ -49,10 +54,18 @@
         height: 150px;
         line-height: 150px;
         text-align: center;
+        position: relative;
     }
 
-    .symbol.winning {
-        outline: 2px solid green;
+    .symbol.winning-line::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background-color: green;
+        transform: translateY(-50%);
     }
 
     #spinButton, #incrementCoinsButton {
@@ -62,14 +75,14 @@
 
     #coinCount, #totalRewards, #totalSpent {
         text-align: center;
-        margin: 5px 0; /* Adjusted margin */
+        margin: 5px 0;
     }
 
     .session-info {
         display: flex;
         justify-content: space-between;
         width: 100%;
-        margin-bottom: 5px; /* Adjusted margin */
+        margin-bottom: 5px;
     }
 </style>
 </head>
