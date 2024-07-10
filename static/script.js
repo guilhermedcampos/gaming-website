@@ -57,7 +57,7 @@ $(document).ready(function() {
         }
 
         for (let i = 0; i < reelCount; i++) {
-            spinReel(i, 2000 + i * 500); // Increasing delay for each reel
+            spinReel(i, 1000 + i * 300); // Reduced duration for faster spinning
         }
     });
 
