@@ -13,8 +13,8 @@
     .reel {
         display: inline-block;
         margin: 0px; /* Reduced space between reels */
-        width: 100px;
-        height: 300px;
+        width: 150px; /* Increased width */
+        height: 450px; /* Increased height */
         border: 1px solid black;
         overflow: hidden;
         position: relative;
@@ -25,9 +25,9 @@
         width: 100%;
     }
     .symbol {
-        font-size: 36px;
-        height: 100px;
-        line-height: 100px; /* Adjust as needed */
+        font-size: 48px; /* Increased font size */
+        height: 150px; /* Increased height */
+        line-height: 150px; /* Adjusted to match the height */
         text-align: center;
     }
     .symbol.winning {
@@ -62,3 +62,4 @@
 <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
+s
