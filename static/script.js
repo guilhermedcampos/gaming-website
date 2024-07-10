@@ -49,7 +49,7 @@ $(document).ready(function() {
             symbolsContainer.animate({ top: '-3000px' }, spinTime, 'linear', function() {
                 let finalSymbols = [];
                 for (let i = 0; i < 3; i++) {
-                    let symbol = $(this).children().eq(i + 27).text();
+                    let symbol = $(this).children().eq(i + 20).text();
                     finalSymbols.push(symbol);
                 }
 
@@ -63,6 +63,9 @@ $(document).ready(function() {
                     totalRewards += reward;
                     updateCoinCount();
                     updateSessionInfo();
+
+                    // Print final symbols to console
+                    printFinalSymbols();
                 }
             });
         }
@@ -97,12 +100,11 @@ $(document).ready(function() {
             'SYM3': { 2: 10, 3: 50, 4: 150, 5: 2000 },
             'SYM4': { 2: 40, 3: 250, 4: 2000, 5: 5000 }
         };
-    
-        // Check horizontally (across reels)
+
         for (let row = 0; row < 3; row++) {
             let startSymbol = finalSymbolsArray[0][row];
             if (!startSymbol) continue;
-    
+
             let count = 1;
             for (let col = 1; col < reelCount; col++) {
                 if (finalSymbolsArray[col][row] === startSymbol) {
@@ -111,7 +113,7 @@ $(document).ready(function() {
                     break;
                 }
             }
-    
+
             if (rewards[startSymbol] && rewards[startSymbol][count]) {
                 highlightWinningLine(row, count);
                 let rewardAmount = rewards[startSymbol][count];
@@ -119,14 +121,34 @@ $(document).ready(function() {
                 console.log(`You won ${rewardAmount} coins with symbol ${startSymbol}!`);
             }
         }
-    
+
         return totalReward;
     }
-    
 
     function highlightWinningLine(row, count) {
         for (let col = 0; col < count; col++) {
             $(`.reel:eq(${col}) .symbols .symbol`).eq(row + 27).addClass('winning');
         }
     }
+
+    function printFinalSymbols() {
+        let reelsString = '';
+        const reels = $('.reel .symbols');
+    
+        for (let i = 0; i < reelCount; i++) {
+            let finalSymbols = [];
+            const symbolsContainer = $(reels[i]);
+    
+            // Collect the final symbols displayed in the current reel
+            symbolsContainer.children('.symbol').each(function() {
+                finalSymbols.push($(this).text());
+            });
+    
+            reelsString += `R${i + 1}: (${finalSymbols.join(', ')}) `;
+        }
+    
+        console.log(reelsString);
+        console.log(finalSymbolsArray);
+    }
+    
 });
