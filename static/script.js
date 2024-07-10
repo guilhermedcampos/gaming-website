@@ -1,12 +1,19 @@
 $(document).ready(function() {
     const symbols = ['J', 'K', 'Q', 'A', '10', 'SYM1', 'SYM2', 'SYM3', 'SYM4'];
     let coinCount = 0;
+    let totalRewards = 0;
+    let totalSpent = 0;
     let spinning = false;
     const reelCount = 5;
     const finalSymbolsArray = Array.from({ length: reelCount }, () => Array(3).fill(''));
 
     function updateCoinCount() {
         $('#coinCount').text(coinCount);
+    }
+
+    function updateSessionInfo() {
+        $('#totalRewards').text(`Total Rewards: ${totalRewards}`);
+        $('#totalSpent').text(`Total Spent: ${totalSpent}`);
     }
 
     $('#incrementCoinsButton').click(function() {
@@ -18,7 +25,9 @@ $(document).ready(function() {
         if (coinCount < 10 || spinning) return;
 
         coinCount -= 10;
+        totalSpent += 10;
         updateCoinCount();
+        updateSessionInfo();
         spinning = true;
         $('#spinButton').prop('disabled', true);
 
@@ -51,7 +60,9 @@ $(document).ready(function() {
                     $('#spinButton').prop('disabled', false);
                     const reward = evaluateBonuses();
                     coinCount += reward;
+                    totalRewards += reward;
                     updateCoinCount();
+                    updateSessionInfo();
                 }
             });
         }
@@ -86,11 +97,12 @@ $(document).ready(function() {
             'SYM3': { 2: 10, 3: 50, 4: 150, 5: 2000 },
             'SYM4': { 2: 40, 3: 250, 4: 2000, 5: 5000 }
         };
-
+    
+        // Check horizontally (across reels)
         for (let row = 0; row < 3; row++) {
             let startSymbol = finalSymbolsArray[0][row];
             if (!startSymbol) continue;
-
+    
             let count = 1;
             for (let col = 1; col < reelCount; col++) {
                 if (finalSymbolsArray[col][row] === startSymbol) {
@@ -99,15 +111,18 @@ $(document).ready(function() {
                     break;
                 }
             }
-
+    
             if (rewards[startSymbol] && rewards[startSymbol][count]) {
                 highlightWinningLine(row, count);
-                totalReward += rewards[startSymbol][count];
+                let rewardAmount = rewards[startSymbol][count];
+                totalReward += rewardAmount;
+                console.log(`You won ${rewardAmount} coins with symbol ${startSymbol}!`);
             }
         }
-
+    
         return totalReward;
     }
+    
 
     function highlightWinningLine(row, count) {
         for (let col = 0; col < count; col++) {
