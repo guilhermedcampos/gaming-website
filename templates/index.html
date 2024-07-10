@@ -68,18 +68,7 @@
         transform: translateY(-50%);
     }
 
-    .symbol.winning-diagonal-asc::before {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 0;
-        width: 100%;
-        height: 4px;
-        background-color: green;
-        transform: rotate(-45deg);
-        transform-origin: center;
-    }
-
+    .symbol.winning-diagonal-asc::before,
     .symbol.winning-diagonal-desc::before {
         content: '';
         position: absolute;
@@ -88,8 +77,15 @@
         width: 100%;
         height: 4px;
         background-color: green;
-        transform: rotate(45deg);
         transform-origin: center;
+    }
+
+    .symbol.winning-diagonal-asc::before {
+        transform: rotate(-45deg);
+    }
+
+    .symbol.winning-diagonal-desc::before {
+        transform: rotate(45deg);
     }
 
     #spinButton, #incrementCoinsButton {
@@ -109,7 +105,6 @@
         margin-bottom: 5px;
     }
 </style>
-
 </head>
 <body>
 <div class="slot-machine-container">
