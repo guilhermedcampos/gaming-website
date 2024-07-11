@@ -4,124 +4,120 @@
 <meta charset="UTF-8">
 <title>5-Reel Slot Machine</title>
 <style>
-body {
-    background-image: url("{{ url_for('static', filename='images/background.png') }}");
-    background-size: cover;
-    background-repeat: no-repeat;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
+    body {
+        background-image: url("{{ url_for('static', filename='images/background.png') }}");
+        background-size: cover;
+        background-repeat: no-repeat;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
 
-.slot-machine-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-image: url("{{ url_for('static', filename='images/container.png') }}"); /* Updated background */
-    background-size: cover;
-    padding: 10px;
-    border: 2px solid green;
-    border-radius: 10px;
-    width: 50%;
-    max-width: 800px;
-    position: relative; /* Add relative positioning */
-}
+    .slot-machine-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-image: url("{{ url_for('static', filename='images/container.png') }}");
+        background-size: cover;
+        background-repeat: no-repeat;
+        padding: 10px;
+        border: 3px solid black;
+        border-radius: 10px;
+        width: 50%;
+        max-width: 800px;
+    }
 
-.slot-machine {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin-bottom: 10px;
-}
+    .slot-machine {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-bottom: 10px;
+    }
 
-.reel {
-    display: inline-block;
-    width: 150px;
-    height: 450px;
-    border: 1px solid black;
-    overflow: hidden;
-    position: relative;
-    background-image: url("{{ url_for('static', filename='images/reels-background.png') }}");
-    background-size: cover;
-    background-repeat: no-repeat;
-}
+    .reel {
+        display: inline-block;
+        background-image: url("{{ url_for('static', filename='images/reels-background.png') }}");
+        width: 150px;
+        height: 450px;
+        border: 1px solid black;
+        overflow: hidden;
+        position: relative;
+    }
 
-.symbols {
-    position: absolute;
-    top: 0;
-    width: 100%;
-}
+    .symbols {
+        position: absolute;
+        top: 0;
+        width: 100%;
+    }
 
-.symbol {
-    font-size: 48px;
-    height: 150px;
-    line-height: 150px;
-    text-align: center;
-    position: relative;
-}
+    .symbol {
+        font-size: 48px;
+        height: 150px;
+        line-height: 150px;
+        text-align: center;
+        position: relative;
+    }
 
-.symbol.winning-line::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background-color: green;
-    transform: translateY(-50%);
-}
+    .symbol.winning-line::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background-color: green;
+        transform: translateY(-50%);
+    }
 
-.symbol.winning-diagonal-asc::before,
-.symbol.winning-diagonal-desc::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%; /* Center horizontally */
-    width: 150%; /* Extend beyond the slot */
-    height: 4px;
-    background-color: green;
-    transform-origin: center;
-}
+    .symbol.winning-diagonal-asc::before,
+    .symbol.winning-diagonal-desc::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%; /* Center horizontally */
+        width: 150%; /* Extend beyond the slot */
+        height: 4px;
+        background-color: green;
+        transform-origin: center;
+    }
 
-.symbol.winning-diagonal-asc::before {
-    transform: translate(-50%, -50%) rotate(-45deg); /* Rotate and adjust position */
-}
+    .symbol.winning-diagonal-asc::before {
+        transform: translate(-50%, -50%) rotate(-45deg); /* Rotate and adjust position */
+    }
 
-.symbol.winning-diagonal-desc::before {
-    transform: translate(-50%, -50%) rotate(45deg); /* Rotate and adjust position */
-}
+    .symbol.winning-diagonal-desc::before {
+        transform: translate(-50%, -50%) rotate(45deg); /* Rotate and adjust position */
+    }
 
+    #spinButton {
+        display: block;
+        margin: 10px auto;
+    }
 
-#spinButton {
-    display: block;
-    margin: 10px auto;
-}
+    .balance {
+        text-align: left; /* Align balance text to left */
+        margin-left: 10px; /* Add margin for spacing */
+        font-size: 20px; /* Adjust font size */
+        color: black; /* Ensure balance text is readable */
+    }
 
-#coinCount, #totalRewards, #totalSpent {
-    text-align: center;
-    margin: 5px 0;
-}
+    #coinCount {
+        font-weight: bold; /* Make coin count bold */
+    }
 
-.session-info {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin-bottom: 5px;
-}
+    #totalRewards, #totalSpent {
+        text-align: center;
+        margin: 5px 0;
+    }
 
-.balance {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    font-size: 18px;
-    background-color: lightyellow;
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid green;
-}
-
+    .session-info {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        margin-bottom: 5px;
+    }
 </style>
 </head>
 <body>
@@ -130,7 +126,6 @@ body {
         <div id="totalRewards">Total Rewards: 0</div>
         <div id="totalSpent">Total Spent: 0</div>
     </div>
-    <div id="coinCount">0</div>
     <div class="slot-machine">
         <div class="reel" id="reel1"><div class="symbols"></div></div>
         <div class="reel" id="reel2"><div class="symbols"></div></div>
@@ -139,7 +134,7 @@ body {
         <div class="reel" id="reel5"><div class="symbols"></div></div>
     </div>
     <button id="spinButton">SPIN</button>
-    <button id="incrementCoinsButton">Add 10 Coins</button>
+    <div class="balance">Balance: <span id="coinCount">999999</span></div>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{{ url_for('static', filename='script.js') }}"></script>
