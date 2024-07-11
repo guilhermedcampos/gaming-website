@@ -1,6 +1,6 @@
 $(document).ready(function() {
     const symbols = ['J', 'K', 'Q', 'A', '10', 'SYM1', 'SYM2', 'SYM3', 'SYM4'];
-    let coinCount = 0;
+    let coinCount = 999999;
     let totalRewards = 0;
     let totalSpent = 0;
     let spinning = false;
@@ -90,11 +90,11 @@ $(document).ready(function() {
     function evaluateBonuses() {
         let totalReward = 0;
         const rewards = {
-            '10': { 3: 10, 4: 25, 5: 100 },
-            'A': { 3: 10, 4: 25, 5: 100 },
-            'Q': { 3: 10, 4: 25, 5: 100 },
-            'K': { 3: 10, 4: 25, 5: 100 },
-            'J': { 3: 10, 4: 25, 5: 100 },
+            '10': { 2: 10 ,3: 10, 4: 25, 5: 100 },
+            'A': { 2: 10 ,3: 10, 4: 25, 5: 100 },
+            'Q': { 2: 10 ,3: 10, 4: 25, 5: 100 },
+            'K': { 2: 10 ,3: 10, 4: 25, 5: 100 },
+            'J': { 2: 10 ,3: 10, 4: 25, 5: 100 },
             'SYM1': { 2: 10, 3: 50, 4: 150, 5: 2000 },
             'SYM2': { 2: 10, 3: 50, 4: 150, 5: 2000 },
             'SYM3': { 2: 10, 3: 50, 4: 150, 5: 2000 },
