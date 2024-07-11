@@ -41,6 +41,9 @@
         border: 1px solid black;
         overflow: hidden;
         position: relative;
+        background-image: url("{{ url_for('static', filename='images/reels-background.png') }}");
+        background-size: cover;
+        background-repeat: no-repeat;
     }
 
     .symbols {
@@ -74,7 +77,7 @@
         position: absolute;
         top: 50%;
         left: 0;
-        width: 100%;
+        width: 150%; /* Make the line longer to intersect the slot */
         height: 4px;
         background-color: green;
         transform-origin: center;
