@@ -6,21 +6,46 @@ $(document).ready(function() {
     let spinning = false;
     const reelCount = 5;
     const finalSymbolsArray = Array.from({ length: reelCount }, () => Array(3).fill(''));
+    const previewSymbolsArray = Array.from({ length: reelCount }, () => Array(3).fill(''));
 
+    // Function to update coin count display
     function updateCoinCount() {
         $('#coinCount').text(coinCount);
     }
 
+    // Function to update session information display
     function updateSessionInfo() {
         $('#totalRewards').text('Total Rewards: ' + totalRewards);
         $('#totalSpent').text('Total Spent: ' + totalSpent);
     }
 
-    $('#incrementCoinsButton').click(function() {
-        coinCount += 10;
-        updateCoinCount();
-    });
+    // Generate preview symbols for each reel
+    function generatePreviewSymbols() {
+        for (let reelIndex = 0; reelIndex < reelCount; reelIndex++) {
+            let previewSymbols = [];
+            for (let i = 0; i < 3; i++) {
+                let randomSymbol = symbols[Math.floor(Math.random() * symbols.length)];
+                previewSymbols.push(randomSymbol);
+            }
+            previewSymbolsArray[reelIndex] = previewSymbols;
+        }
+    }
 
+    // Display preview symbols on the reels
+    function displayPreviewSymbols() {
+        const reels = $('.reel .symbols');
+        for (let reelIndex = 0; reelIndex < reelCount; reelIndex++) {
+            let symbolsContainer = $(reels[reelIndex]);
+            let previewSymbolsHtml = previewSymbolsArray[reelIndex].map(symbol => `<div class="symbol">${symbol}</div>`).join('');
+            symbolsContainer.html(previewSymbolsHtml);
+        }
+    }
+
+    // Initialize the slot machine with preview symbols
+    generatePreviewSymbols();
+    displayPreviewSymbols();
+
+    // Event handler for spin button click
     $('#spinButton').click(function() {
         if (coinCount < 10 || spinning) return;
 
@@ -63,18 +88,18 @@ $(document).ready(function() {
                     totalRewards += reward;
                     updateCoinCount();
                     updateSessionInfo();
-
-                    // Print final symbols to console
                     printFinalSymbols();
                 }
             });
         }
 
+        // Spin each reel with a delay
         for (let i = 0; i < reelCount; i++) {
             spinReel(i, 1000 + i * 300);
         }
     });
 
+    // Function to generate symbol probabilities
     function generateProbabilities() {
         const probabilities = [];
         for (let i = 0; i < 10; i++) probabilities.push('10', 'A', 'Q', 'K', 'J');
@@ -83,10 +108,12 @@ $(document).ready(function() {
         return probabilities;
     }
 
+    // Function to get a random symbol based on probabilities
     function getRandomSymbol(probabilities) {
         return probabilities[Math.floor(Math.random() * probabilities.length)];
     }
 
+    // Function to evaluate bonuses and calculate rewards
     function evaluateBonuses() {
         let totalReward = 0;
         const rewards = {
@@ -161,12 +188,14 @@ $(document).ready(function() {
         return totalReward;
     }
 
+    // Function to highlight winning line on the reels
     function highlightWinningLine(row, count) {
         for (let col = 0; col < count; col++) {
             $(`.reel:eq(${col}) .symbols .symbol`).eq(row + 20).addClass('winning-line');
         }
     }
 
+    // Function to highlight diagonal win on the reels
     function highlightDiagonalWin(startRow, count, isDescending) {
         for (let i = 0; i < count; i++) {
             let rowIndex = isDescending ? startRow + i : startRow - i;
@@ -175,6 +204,7 @@ $(document).ready(function() {
         }
     }
 
+    // Function to print final symbols to console
     function printFinalSymbols() {
         let output = "";
         finalSymbolsArray.forEach((reel, index) => {
