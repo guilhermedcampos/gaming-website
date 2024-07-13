@@ -117,8 +117,8 @@ $(document).ready(function() {
 
     function generateProbabilities() {
         const probabilities = [];
-        for (let i = 0; i < 6; i++) probabilities.push('10', 'A', 'Q', 'K', 'J');
-        for (let i = 0; i < 3; i++) probabilities.push('SYM1', 'SYM2', 'SYM3');
+        for (let i = 0; i < 3; i++) probabilities.push('10', 'A', 'Q', 'K', 'J');
+        for (let i = 0; i < 2; i++) probabilities.push('SYM1', 'SYM2', 'SYM3');
         for (let i = 0; i < 1; i++) probabilities.push('SYM4');
         return probabilities;
     }
