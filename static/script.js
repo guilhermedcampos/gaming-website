@@ -1,5 +1,18 @@
 $(document).ready(function() {
     const symbols = ['J', 'K', 'Q', 'A', '10', 'SYM1', 'SYM2', 'SYM3', 'SYM4'];
+    const symbolImages = {
+        'J': 'static/symbols/J.png',
+        'K': 'static/symbols/K.png',
+        'Q': 'static/symbols/Q.png',
+        'A': 'static/symbols/A.png',
+        '10': 'static/symbols/10.png',
+        // Add images for SYM1, SYM2, SYM3, SYM4 if available
+        'SYM1': 'static/symbols/SYM1.png',
+        'SYM2': 'static/symbols/SYM2.png',
+        'SYM3': 'static/symbols/SYM3.png',
+        'SYM4': 'static/symbols/SYM4.png'
+    };
+    
     let coinCount = 999999;
     let totalRewards = 0;
     let totalSpent = 0;
@@ -8,18 +21,15 @@ $(document).ready(function() {
     const finalSymbolsArray = Array.from({ length: reelCount }, () => Array(3).fill(''));
     const previewSymbolsArray = Array.from({ length: reelCount }, () => Array(3).fill(''));
 
-    // Function to update coin count display
     function updateCoinCount() {
         $('#coinCount').text(coinCount);
     }
 
-    // Function to update session information display
     function updateSessionInfo() {
         $('#totalRewards').text('Total Rewards: ' + totalRewards);
         $('#totalSpent').text('Total Spent: ' + totalSpent);
     }
 
-    // Generate preview symbols for each reel
     function generatePreviewSymbols() {
         for (let reelIndex = 0; reelIndex < reelCount; reelIndex++) {
             let previewSymbols = [];
@@ -31,21 +41,24 @@ $(document).ready(function() {
         }
     }
 
-    // Display preview symbols on the reels
     function displayPreviewSymbols() {
         const reels = $('.reel .symbols');
         for (let reelIndex = 0; reelIndex < reelCount; reelIndex++) {
             let symbolsContainer = $(reels[reelIndex]);
-            let previewSymbolsHtml = previewSymbolsArray[reelIndex].map(symbol => `<div class="symbol">${symbol}</div>`).join('');
+            let previewSymbolsHtml = previewSymbolsArray[reelIndex].map(symbol => {
+                if (symbolImages[symbol]) {
+                    return `<div class="symbol"><img src="${symbolImages[symbol]}" alt="${symbol}"></div>`;
+                } else {
+                    return `<div class="symbol">${symbol}</div>`;
+                }
+            }).join('');
             symbolsContainer.html(previewSymbolsHtml);
         }
     }
 
-    // Initialize the slot machine with preview symbols
     generatePreviewSymbols();
     displayPreviewSymbols();
 
-    // Event handler for spin button click
     $('#spinButton').click(function() {
         if (coinCount < 10 || spinning) return;
 
@@ -65,7 +78,11 @@ $(document).ready(function() {
 
             for (let i = 0; i < 30; i++) {
                 let randomSymbol = getRandomSymbol(probabilities);
-                newSymbols.push(`<div class="symbol">${randomSymbol}</div>`);
+                if (symbolImages[randomSymbol]) {
+                    newSymbols.push(`<div class="symbol"><img src="${symbolImages[randomSymbol]}" alt="${randomSymbol}"></div>`);
+                } else {
+                    newSymbols.push(`<div class="symbol">${randomSymbol}</div>`);
+                }
             }
 
             symbolsContainer.html(newSymbols.join(''));
@@ -74,7 +91,8 @@ $(document).ready(function() {
             symbolsContainer.animate({ top: '-3000px' }, spinTime, 'linear', function() {
                 let finalSymbols = [];
                 for (let i = 0; i < 3; i++) {
-                    let symbol = $(this).children().eq(i + 20).text();
+                    let symbolElement = $(this).children().eq(i + 20).find('img');
+                    let symbol = symbolElement.length ? symbolElement.attr('alt') : $(this).children().eq(i + 20).text();
                     finalSymbols.push(symbol);
                 }
 
@@ -93,13 +111,11 @@ $(document).ready(function() {
             });
         }
 
-        // Spin each reel with a delay
         for (let i = 0; i < reelCount; i++) {
             spinReel(i, 1000 + i * 300);
         }
     });
 
-    // Function to generate symbol probabilities
     function generateProbabilities() {
         const probabilities = [];
         for (let i = 0; i < 10; i++) probabilities.push('10', 'A', 'Q', 'K', 'J');
@@ -108,27 +124,24 @@ $(document).ready(function() {
         return probabilities;
     }
 
-    // Function to get a random symbol based on probabilities
     function getRandomSymbol(probabilities) {
         return probabilities[Math.floor(Math.random() * probabilities.length)];
     }
 
-    // Function to evaluate bonuses and calculate rewards
     function evaluateBonuses() {
         let totalReward = 0;
         const rewards = {
-            '10': { 2: 10 ,3: 10, 4: 25, 5: 100 },
-            'A': { 2: 10 ,3: 10, 4: 25, 5: 100 },
-            'Q': { 2: 10 ,3: 10, 4: 25, 5: 100 },
-            'K': { 2: 10 ,3: 10, 4: 25, 5: 100 },
-            'J': { 2: 10 ,3: 10, 4: 25, 5: 100 },
+            '10': { 2: 10, 3: 10, 4: 25, 5: 100 },
+            'A': { 2: 10, 3: 10, 4: 25, 5: 100 },
+            'Q': { 2: 10, 3: 10, 4: 25, 5: 100 },
+            'K': { 2: 10, 3: 10, 4: 25, 5: 100 },
+            'J': { 2: 10, 3: 10, 4: 25, 5: 100 },
             'SYM1': { 2: 10, 3: 50, 4: 150, 5: 2000 },
             'SYM2': { 2: 10, 3: 50, 4: 150, 5: 2000 },
             'SYM3': { 2: 10, 3: 50, 4: 150, 5: 2000 },
             'SYM4': { 2: 40, 3: 250, 4: 2000, 5: 5000 }
         };
 
-        // Check for horizontal wins
         for (let row = 0; row < 3; row++) {
             let startSymbol = finalSymbolsArray[0][row];
             if (!startSymbol) continue;
@@ -149,7 +162,6 @@ $(document).ready(function() {
             }
         }
 
-        // Check for diagonal wins (top-left to bottom-right)
         let startSymbol = finalSymbolsArray[0][0];
         if (startSymbol) {
             let count = 1;
@@ -167,7 +179,6 @@ $(document).ready(function() {
             }
         }
 
-        // Check for diagonal wins (bottom-left to top-right)
         startSymbol = finalSymbolsArray[0][2];
         if (startSymbol) {
             let count = 1;
@@ -188,14 +199,12 @@ $(document).ready(function() {
         return totalReward;
     }
 
-    // Function to highlight winning line on the reels
     function highlightWinningLine(row, count) {
         for (let col = 0; col < count; col++) {
             $(`.reel:eq(${col}) .symbols .symbol`).eq(row + 20).addClass('winning-line');
         }
     }
 
-    // Function to highlight diagonal win on the reels
     function highlightDiagonalWin(startRow, count, isDescending) {
         for (let i = 0; i < count; i++) {
             let rowIndex = isDescending ? startRow + i : startRow - i;
@@ -204,7 +213,6 @@ $(document).ready(function() {
         }
     }
 
-    // Function to print final symbols to console
     function printFinalSymbols() {
         let output = "";
         finalSymbolsArray.forEach((reel, index) => {

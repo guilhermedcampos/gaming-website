@@ -60,6 +60,11 @@
         position: relative;
     }
 
+    .symbol img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
     .symbol.winning-line::before {
         content: '';
         position: absolute;
@@ -76,19 +81,19 @@
         content: '';
         position: absolute;
         top: 50%;
-        left: 50%; /* Center horizontally */
-        width: 150%; /* Extend beyond the slot */
+        left: 50%;
+        width: 150%;
         height: 4px;
         background-color: green;
         transform-origin: center;
     }
 
     .symbol.winning-diagonal-asc::before {
-        transform: translate(-50%, -50%) rotate(-45deg); /* Rotate and adjust position */
+        transform: translate(-50%, -50%) rotate(-45deg);
     }
 
     .symbol.winning-diagonal-desc::before {
-        transform: translate(-50%, -50%) rotate(45deg); /* Rotate and adjust position */
+        transform: translate(-50%, -50%) rotate(45deg);
     }
 
     #spinButton {
@@ -97,14 +102,14 @@
     }
 
     .balance {
-        text-align: left; /* Align balance text to left */
-        margin-left: 10px; /* Add margin for spacing */
-        font-size: 20px; /* Adjust font size */
-        color: black; /* Ensure balance text is readable */
+        text-align: left;
+        margin-left: 10px;
+        font-size: 20px;
+        color: black;
     }
 
     #coinCount {
-        font-weight: normal; /* Make coin count bold */
+        font-weight: normal;
     }
 
     #totalRewards, #totalSpent {
