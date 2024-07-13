@@ -69,11 +69,11 @@
         content: '';
         position: absolute;
         top: 50%;
-        left: 0;
-        width: 100%;
+        left: 50%;
+        width: 150%;
         height: 4px;
         background-color: green;
-        transform: translateY(-50%);
+        transform: translateX(-50%);
     }
 
     .symbol.winning-diagonal-asc::before,
@@ -95,6 +95,38 @@
     .symbol.winning-diagonal-desc::before {
         transform: translate(-50%, -50%) rotate(45deg);
     }
+
+    .symbol.winning-line-v2::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 4px;
+    background-color: green;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.symbol.winning-diagonal-asc-v2::before,
+.symbol.winning-diagonal-desc-v2::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 150%;
+    height: 4px;
+    background-color: green;
+    transform-origin: center;
+}
+
+.symbol.winning-diagonal-asc-v2::before {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.symbol.winning-diagonal-desc-v2::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
 
     #spinButton {
         display: block;
@@ -124,6 +156,7 @@
         margin-bottom: 5px;
     }
 </style>
+
 </head>
 <body>
 <div class="slot-machine-container">

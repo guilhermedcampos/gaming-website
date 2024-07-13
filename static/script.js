@@ -6,7 +6,6 @@ $(document).ready(function() {
         'Q': 'static/symbols/Q.png',
         'A': 'static/symbols/A.png',
         '10': 'static/symbols/10.png',
-        // Add images for SYM1, SYM2, SYM3, SYM4 if available
         'SYM1': 'static/symbols/SYM1.png',
         'SYM2': 'static/symbols/SYM2.png',
         'SYM3': 'static/symbols/SYM3.png',
@@ -201,15 +200,25 @@ $(document).ready(function() {
 
     function highlightWinningLine(row, count) {
         for (let col = 0; col < count; col++) {
-            $(`.reel:eq(${col}) .symbols .symbol`).eq(row + 20).addClass('winning-line');
+            let symbolElement = $(`.reel:eq(${col}) .symbols .symbol`).eq(row + 20);
+            if (col === 0) {
+                symbolElement.addClass('winning-line-v2'); // Custom class for the first reel
+            } else {
+                symbolElement.addClass('winning-line');
+            }
         }
     }
 
     function highlightDiagonalWin(startRow, count, isDescending) {
         for (let i = 0; i < count; i++) {
             let rowIndex = isDescending ? startRow + i : startRow - i;
+            let symbolElement = $(`.reel:eq(${i}) .symbols .symbol`).eq(rowIndex + 20);
             let diagonalClass = isDescending ? 'winning-diagonal-desc' : 'winning-diagonal-asc';
-            $(`.reel:eq(${i}) .symbols .symbol`).eq(rowIndex + 20).addClass(diagonalClass);
+            if (i === 0) {
+                symbolElement.addClass(`${diagonalClass}-v2`); // Custom class for the first reel
+            } else {
+                symbolElement.addClass(diagonalClass);
+            }
         }
     }
 
