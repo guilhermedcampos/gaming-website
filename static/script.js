@@ -9,7 +9,8 @@ $(document).ready(function() {
         'SYM1': 'static/symbols/SYM1.png',
         'SYM2': 'static/symbols/SYM2.png',
         'SYM3': 'static/symbols/SYM3.png',
-        'SYM4': 'static/symbols/SYM4.png'
+        'SYM4': 'static/symbols/SYM4.png',
+        'BONUS': 'static/symbols/BONUS.png'
     };
     
     // Audio elements
@@ -135,7 +136,7 @@ $(document).ready(function() {
         const probabilities = [];
         for (let i = 0; i < 3; i++) probabilities.push('10', 'A', 'Q', 'K', 'J');
         for (let i = 0; i < 2; i++) probabilities.push('SYM1', 'SYM2', 'SYM3');
-        for (let i = 0; i < 1; i++) probabilities.push('SYM4');
+        for (let i = 0; i < 1; i++) probabilities.push('SYM4', 'BONUS');
         return probabilities;
     }
 
