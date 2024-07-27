@@ -12,6 +12,10 @@ $(document).ready(function() {
         'SYM4': 'static/symbols/SYM4.png'
     };
     
+    // Audio elements
+    const spinAudio = new Audio('static/audio/wheel-spin.wav');
+    const payoutAudio = new Audio('static/audio/payout.wav');
+
     let coinCount = 999999;
     let totalRewards = 0;
     let totalSpent = 0;
@@ -71,6 +75,10 @@ $(document).ready(function() {
         const reels = $('.reel .symbols');
         const probabilities = generateProbabilities();
 
+        // Play spin sound
+        spinAudio.currentTime = 0; // Rewind to the start
+        spinAudio.play();
+
         function spinReel(reelIndex, spinTime) {
             const symbolsContainer = $(reels[reelIndex]);
             let newSymbols = [];
@@ -106,6 +114,14 @@ $(document).ready(function() {
                     updateCoinCount();
                     updateSessionInfo();
                     printFinalSymbols();
+
+                    // Play payout sound if there's a reward
+                    if (reward > 0) {
+                        payoutAudio.play();
+                    }
+
+                    // Stop spin sound
+                    spinAudio.pause();
                 }
             });
         }

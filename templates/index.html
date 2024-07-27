@@ -173,6 +173,10 @@
     <button id="spinButton">SPIN</button>
     <div class="balance">Balance: <span id="coinCount">999999</span></div>
 </div>
+
+<audio id="wheel-spin" src="{{ url_for('static', filename='audio/wheel-spin.wav') }}"></audio>
+<audio id="payout" src="{{ url_for('static', filename='audio/payout.wav') }}"></audio>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
