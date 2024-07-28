@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    const symbols = ['J', 'K', 'Q', 'A', '10', 'SYM1', 'SYM2', 'SYM3', 'SYM4'];
+    const symbols = ['J', 'K', 'Q', 'A', '10', 'SYM1', 'SYM2', 'SYM3', 'SYM4', 'BONUS'];
     const symbolImages = {
         'J': 'static/symbols/J.png',
         'K': 'static/symbols/K.png',
@@ -24,6 +24,7 @@ $(document).ready(function() {
     const reelCount = 5;
     const finalSymbolsArray = Array.from({ length: reelCount }, () => Array(3).fill(''));
     const previewSymbolsArray = Array.from({ length: reelCount }, () => Array(3).fill(''));
+    let bonus = false; // Initialize bonus variable
 
     function updateCoinCount() {
         $('#coinCount').text(coinCount);
@@ -158,6 +159,8 @@ $(document).ready(function() {
             'SYM4': { 2: 40, 3: 250, 4: 2000, 5: 5000 }
         };
 
+        let bonusCount = 0;
+
         for (let row = 0; row < 3; row++) {
             let startSymbol = finalSymbolsArray[0][row];
             if (!startSymbol) continue;
@@ -210,6 +213,24 @@ $(document).ready(function() {
                 totalReward += rewards[startSymbol][count];
                 console.log(`Diagonal win (/): Symbol ${startSymbol}, Count ${count}, Reward ${rewards[startSymbol][count]}`);
             }
+        }
+
+        // Check for BONUS symbols
+        let bonusReels = new Set();
+        for (let reel = 0; reel < reelCount; reel++) {
+            for (let row = 0; row < 3; row++) {
+                if (finalSymbolsArray[reel][row] === 'BONUS') {
+                    bonusReels.add(reel);
+                    break;
+                }
+            }
+        }
+
+        if (bonusReels.size >= 3) {
+            bonus = true;
+            console.log('BONUS triggered!');
+        } else {
+            bonus = false;
         }
 
         return totalReward;
