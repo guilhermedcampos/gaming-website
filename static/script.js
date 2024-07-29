@@ -71,7 +71,7 @@ $(document).ready(function() {
     }
 
     function spin() {
-        if (coinCount < 10 && bonusSpins === 0 || spinning) return;
+        if ((coinCount < 10 && bonusSpins === 0) || spinning || $('#bonusModal').is(':visible')) return;
 
         if (bonusSpins === 0) {
             coinCount -= 10;
@@ -136,7 +136,7 @@ $(document).ready(function() {
                     spinAudio.pause();
 
                     if (bonusSpins > 0) {
-                        spin();
+                        setTimeout(spin, 500);  // Add 0.5-second delay before the next bonus spin
                     }
                 }
             });
@@ -152,7 +152,7 @@ $(document).ready(function() {
     });
 
     $(document).keydown(function(event) {
-        if (event.key === ' ' || event.code === 'Space') {
+        if ((event.key === ' ' || event.code === 'Space') && !$('#bonusModal').is(':visible')) {
             event.preventDefault();
             spin();
         }
@@ -267,7 +267,7 @@ $(document).ready(function() {
         bonusSpins = 10;
         $('#bonusModal').hide();
         updateBonusSpins();
-        spin();
+        setTimeout(spin, 500);  // Start the first bonus spin with 0.5-second delay
     });
 
     function highlightWinningLine(row, count) {
