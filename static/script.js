@@ -61,10 +61,7 @@ $(document).ready(function() {
         }
     }
 
-    generatePreviewSymbols();
-    displayPreviewSymbols();
-
-    $('#spinButton').click(function() {
+    function spin() {
         if (coinCount < 10 || spinning) return;
 
         coinCount -= 10;
@@ -130,6 +127,17 @@ $(document).ready(function() {
 
         for (let i = 0; i < reelCount; i++) {
             spinReel(i, 1000 + i * 300);
+        }
+    }
+
+    $('#spinButton').click(function() {
+        spin();
+    });
+
+    $(document).keydown(function(event) {
+        if (event.key === ' ' || event.code === 'Space') { // Check for space bar press
+            event.preventDefault(); // Prevent default action (scrolling)
+            spin();
         }
     });
 
@@ -267,4 +275,7 @@ $(document).ready(function() {
         });
         console.log(output);
     }
+
+    generatePreviewSymbols();
+    displayPreviewSymbols();
 });
