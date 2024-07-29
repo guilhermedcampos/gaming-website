@@ -12,8 +12,7 @@ $(document).ready(function() {
         'SYM4': 'static/symbols/SYM4.png',
         'BONUS': 'static/symbols/BONUS.png'
     };
-    
-    // Audio elements
+
     const spinAudio = new Audio('static/audio/wheel-spin.wav');
     const payoutAudio = new Audio('static/audio/payout.wav');
 
@@ -24,7 +23,8 @@ $(document).ready(function() {
     const reelCount = 5;
     const finalSymbolsArray = Array.from({ length: reelCount }, () => Array(3).fill(''));
     const previewSymbolsArray = Array.from({ length: reelCount }, () => Array(3).fill(''));
-    let bonus = false; // Initialize bonus variable
+    let bonus = false;
+    let bonusSpins = 0;
 
     function updateCoinCount() {
         $('#coinCount').text(coinCount);
@@ -62,10 +62,15 @@ $(document).ready(function() {
     }
 
     function spin() {
-        if (coinCount < 10 || spinning) return;
+        if (coinCount < 10 && bonusSpins === 0 || spinning) return;
 
-        coinCount -= 10;
-        totalSpent += 10;
+        if (bonusSpins === 0) {
+            coinCount -= 10;
+            totalSpent += 10;
+        } else {
+            bonusSpins--;
+        }
+
         updateCoinCount();
         updateSessionInfo();
         spinning = true;
@@ -74,8 +79,7 @@ $(document).ready(function() {
         const reels = $('.reel .symbols');
         const probabilities = generateProbabilities();
 
-        // Play spin sound
-        spinAudio.currentTime = 0; // Rewind to the start
+        spinAudio.currentTime = 0;
         spinAudio.play();
 
         function spinReel(reelIndex, spinTime) {
@@ -119,8 +123,11 @@ $(document).ready(function() {
                         $('#rewardMessage').text(`+${reward} coins`).fadeIn().delay(2000).fadeOut();
                     }
 
-                    // Stop spin sound
                     spinAudio.pause();
+
+                    if (bonusSpins > 0) {
+                        spin();
+                    }
                 }
             });
         }
@@ -135,8 +142,8 @@ $(document).ready(function() {
     });
 
     $(document).keydown(function(event) {
-        if (event.key === ' ' || event.code === 'Space') { // Check for space bar press
-            event.preventDefault(); // Prevent default action (scrolling)
+        if (event.key === ' ' || event.code === 'Space') {
+            event.preventDefault();
             spin();
         }
     });
@@ -223,7 +230,6 @@ $(document).ready(function() {
             }
         }
 
-        // Check for BONUS symbols
         let bonusReels = new Set();
         for (let reel = 0; reel < reelCount; reel++) {
             for (let row = 0; row < 3; row++) {
@@ -236,6 +242,7 @@ $(document).ready(function() {
 
         if (bonusReels.size >= 3) {
             bonus = true;
+            triggerBonusEvent();
             console.log('BONUS triggered!');
         } else {
             bonus = false;
@@ -244,11 +251,21 @@ $(document).ready(function() {
         return totalReward;
     }
 
+    function triggerBonusEvent() {
+        $('#bonusModal').show();
+    }
+
+    $('#startBonusButton').click(function() {
+        bonusSpins = 10;
+        $('#bonusModal').hide();
+        spin();
+    });
+
     function highlightWinningLine(row, count) {
         for (let col = 0; col < count; col++) {
             let symbolElement = $(`.reel:eq(${col}) .symbols .symbol`).eq(row + 20);
             if (col === 0) {
-                symbolElement.addClass('winning-line-v2'); // Custom class for the first reel
+                symbolElement.addClass('winning-line-v2');
             } else {
                 symbolElement.addClass('winning-line');
             }
@@ -261,7 +278,7 @@ $(document).ready(function() {
             let symbolElement = $(`.reel:eq(${i}) .symbols .symbol`).eq(rowIndex + 20);
             let diagonalClass = isDescending ? 'winning-diagonal-desc' : 'winning-diagonal-asc';
             if (i === 0) {
-                symbolElement.addClass(`${diagonalClass}-v2`); // Custom class for the first reel
+                symbolElement.addClass(`${diagonalClass}-v2`);
             } else {
                 symbolElement.addClass(diagonalClass);
             }
