@@ -35,6 +35,15 @@ $(document).ready(function() {
         $('#totalSpent').text('Total Spent: ' + totalSpent);
     }
 
+    function updateBonusSpins() {
+        $('#spinsLeft').text('Spins left: ' + bonusSpins);
+        if (bonusSpins > 0) {
+            $('#spinsLeft').show();
+        } else {
+            $('#spinsLeft').hide();
+        }
+    }
+
     function generatePreviewSymbols() {
         for (let reelIndex = 0; reelIndex < reelCount; reelIndex++) {
             let previewSymbols = [];
@@ -48,7 +57,7 @@ $(document).ready(function() {
 
     function displayPreviewSymbols() {
         const reels = $('.reel .symbols');
-        for (let reelIndex = 0; reelIndex < reelCount; reelIndex++) {
+        for (let reelIndex = 0; reelCount; reelIndex++) {
             let symbolsContainer = $(reels[reelIndex]);
             let previewSymbolsHtml = previewSymbolsArray[reelIndex].map(symbol => {
                 if (symbolImages[symbol]) {
@@ -69,6 +78,7 @@ $(document).ready(function() {
             totalSpent += 10;
         } else {
             bonusSpins--;
+            updateBonusSpins();
         }
 
         updateCoinCount();
@@ -178,8 +188,6 @@ $(document).ready(function() {
 
         for (let row = 0; row < 3; row++) {
             let startSymbol = finalSymbolsArray[0][row];
-            if (!startSymbol) continue;
-
             let count = 1;
             for (let col = 1; col < reelCount; col++) {
                 if (finalSymbolsArray[col][row] === startSymbol) {
@@ -258,6 +266,7 @@ $(document).ready(function() {
     $('#startBonusButton').click(function() {
         bonusSpins = 10;
         $('#bonusModal').hide();
+        updateBonusSpins();
         spin();
     });
 

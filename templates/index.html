@@ -228,6 +228,14 @@ body {
     background-color: #45a049;
 }
 
+/* Add this to your styles.css */
+.spins-left {
+    margin-left: 20px;
+    font-size: 18px;
+    color: #000000;
+    vertical-align: middle;
+    display: none; /* Hide by default */
+}
 
 </style>
 </head>
@@ -249,12 +257,13 @@ body {
     <!-- Modal for bonus confirmation -->
     <div id="bonusModal" class="modal">
         <div class="modal-content">
-            <p>You just won 10 free spins</p>
+            <p>You just won 10 free spins!</p>
             <button id="startBonusButton">Start</button>
         </div>
     </div>
 
     <button id="spinButton">SPIN</button>
+    <span id="spinsLeft" class="spins-left">Spins left: 0</span>
     <div class="balance">Balance: <span id="coinCount">999999</span></div>
 </div>
 
