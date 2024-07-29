@@ -117,9 +117,9 @@ $(document).ready(function() {
                     updateSessionInfo();
                     printFinalSymbols();
 
-                    // Play payout sound if there's a reward
                     if (reward > 0) {
                         payoutAudio.play();
+                        $('#rewardMessage').text(`+${reward} coins`).fadeIn().delay(2000).fadeOut();
                     }
 
                     // Stop spin sound
