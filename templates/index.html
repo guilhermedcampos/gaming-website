@@ -188,30 +188,36 @@ body {
         1px -1px 2px rgba(0, 0, 0, 0.7),
         -1px 1px 2px rgba(0, 0, 0, 0.7); /* Multiple shadows for better outline effect */
 }
-
-/* Add this to your styles.css */
-
+/* Add this CSS to your styles.css */
 .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0,0,0,0.4); /* Black with opacity */
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 450px;
+    height: 300px;
+    background-color: white;
+    border: 2px solid black;
+    z-index: 1000;
+    text-align: center;
+    padding-top: 50px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .modal-content {
-    background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 450px;
-    height: 300px;
-    text-align: center;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    margin: auto;
+}
+
+.modal-content p {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.modal-content button {
+    font-size: 18px;
+    padding: 10px 20px;
+    cursor: pointer;
 }
 
 #startBonusButton {
@@ -259,6 +265,13 @@ body {
         <div class="modal-content">
             <p>You just won 10 free spins!</p>
             <button id="startBonusButton">Start</button>
+        </div>
+    </div>
+
+    <div id="bonusEndModal" class="modal">
+        <div class="modal-content">
+            <p id="bonusEndMessage">You won XXX coins with the bonus!</p>
+            <button id="closeBonusEndButton">Close</button>
         </div>
     </div>
 

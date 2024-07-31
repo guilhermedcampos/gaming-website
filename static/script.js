@@ -25,6 +25,8 @@ $(document).ready(function() {
     const previewSymbolsArray = Array.from({ length: reelCount }, () => Array(3).fill(''));
     let bonus = false;
     let bonusSpins = 0;
+    let spinsOccurred = 0;
+    let bonusTotalReward = 0;
 
     function updateCoinCount() {
         $('#coinCount').text(coinCount);
@@ -78,6 +80,7 @@ $(document).ready(function() {
             totalSpent += 10;
         } else {
             bonusSpins--;
+            spinsOccurred++;
             updateBonusSpins();
         }
 
@@ -124,6 +127,9 @@ $(document).ready(function() {
                     const reward = evaluateBonuses();
                     coinCount += reward;
                     totalRewards += reward;
+                    if (bonusSpins > 0) {
+                        bonusTotalReward += reward;
+                    }
                     updateCoinCount();
                     updateSessionInfo();
                     printFinalSymbols();
@@ -137,6 +143,9 @@ $(document).ready(function() {
 
                     if (bonusSpins > 0) {
                         setTimeout(spin, 500);  // Add 0.5-second delay before the next bonus spin
+                    } else if (spinsOccurred === 10 && !bonus) {
+                        showBonusEndModal();
+                        spinsOccurred = 0;
                     }
                 }
             });
@@ -265,6 +274,8 @@ $(document).ready(function() {
 
     $('#startBonusButton').click(function() {
         bonusSpins = 10;
+        spinsOccurred = 0;
+        bonusTotalReward = 0;
         $('#bonusModal').hide();
         updateBonusSpins();
         setTimeout(spin, 500);  // Start the first bonus spin with 0.5-second delay
@@ -301,6 +312,16 @@ $(document).ready(function() {
         });
         console.log(output);
     }
+
+    function showBonusEndModal() {
+        $('#bonusEndModal').show().find('.modal-body').text(`You won ${bonusTotalReward} coins with the bonus!`);
+    }
+
+    $('#closeBonusEndButton').click(function() {
+        $('#bonusEndModal').hide();
+        bonusTotalReward = 0;
+        bonus = false;
+    });
 
     generatePreviewSymbols();
     displayPreviewSymbols();
