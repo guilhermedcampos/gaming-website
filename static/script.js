@@ -314,14 +314,15 @@ $(document).ready(function() {
     }
 
     function showBonusEndModal() {
-        $('#bonusEndModal').show().find('.modal-body').text(`You won ${bonusTotalReward} coins with the bonus!`);
+        $('#bonusEndMessage').text(`You won ${bonusTotalReward} coins with the bonus!`);
+        $('#bonusEndModal').show();
     }
-
+    
     $('#closeBonusEndButton').click(function() {
         $('#bonusEndModal').hide();
         bonusTotalReward = 0;
         bonus = false;
-    });
+    });    
 
     generatePreviewSymbols();
     displayPreviewSymbols();
