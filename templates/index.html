@@ -29,9 +29,14 @@
             max-height: 100%;
         }
     </style>
+    <script>
+        function navigateToSlotMachine() {
+            window.location.href = "{{ url_for('slot_machine') }}";
+        }
+    </script>
 </head>
 <body>
-    <div class="container" onclick="window.location.href='{{ url_for('slot_machine') }}'">
+    <div class="container" onclick="navigateToSlotMachine()">
         <img src="{{ url_for('static', filename='images/slot.png') }}" alt="Slot Machine">
     </div>
 </body>
