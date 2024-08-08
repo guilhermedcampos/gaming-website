@@ -6,16 +6,42 @@
     <style>
         body {
             background-color: #f0f0f0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             margin: 0;
+            font-family: Arial, sans-serif;
         }
+
+        /* Header styling */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+        }
+
+        .header button {
+            background-color: #555;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        .header button:hover {
+            background-color: #777;
+        }
+
         .container {
             display: flex;
             justify-content: center;
             align-items: center;
+            height: calc(100vh - 60px); /* Adjust height considering the header */
+        }
+
+        .slot-machine-container {
             width: 200px;
             height: 200px;
             background-color: white;
@@ -23,8 +49,12 @@
             border-radius: 10px;
             cursor: pointer;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        .container img {
+
+        .slot-machine-container img {
             max-width: 100%;
             max-height: 100%;
         }
@@ -33,11 +63,26 @@
         function navigateToSlotMachine() {
             window.location.href = "/slot-machine";
         }
+
+        function navigateToProfile() {
+            window.location.href = "/profile";
+        }
+
+        function logout() {
+            alert('Logging out...');
+            // Add your logout logic here, e.g., redirect to a logout endpoint
+        }
     </script>
 </head>
 <body>
-    <div class="container" onclick="navigateToSlotMachine()">
-        <img src="/images/slot.png" alt="Slot Machine">
+    <div class="header">
+        <button onclick="logout()">Log out</button>
+        <button onclick="navigateToProfile()">Profile</button>
+    </div>
+    <div class="container">
+        <div class="slot-machine-container" onclick="navigateToSlotMachine()">
+            <img src="/images/slot.png" alt="Slot Machine">
+        </div>
     </div>
 </body>
 </html>
