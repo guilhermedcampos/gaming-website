@@ -73,7 +73,7 @@ $(document).ready(function() {
     }
 
     function spin() {
-        if ((coinCount < 10 && bonusSpins === 0) || spinning || $('#bonusModal').is(':visible')) return;
+        if ((coinCount < 10 && bonusSpins === 0) || spinning || $('#bonusModal').is(':visible') ||$('#bonusEndModal').is(':visible') ) return;
 
         if (bonusSpins === 0) {
             coinCount -= 10;
