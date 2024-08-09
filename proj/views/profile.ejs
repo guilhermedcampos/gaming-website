@@ -6,12 +6,47 @@
     <style>
         body {
             background-color: #f0f0f0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            width: 100%;
+            padding: 20px;
+            background-color: #333;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            position: fixed;
+            top: 0;
+            left: 0;
+            box-sizing: border-box;
+        }
+
+        header .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        header button {
+            background-color: #555;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        header button:hover {
+            background-color: #777;
         }
 
         .profile-container {
@@ -20,6 +55,7 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
+            margin-top: 120px; /* Adjusted to ensure all header content is visible */
         }
 
         h1 {
@@ -31,8 +67,24 @@
             font-size: 18px;
         }
     </style>
+    <script>
+        function goBack() {
+            window.location.href = "/";
+        }
+
+        function logout() {
+            window.location.href = "/logout";
+        }
+    </script>
 </head>
 <body>
+    <header>
+        <button onclick="goBack()">← Back</button>
+        <div>BALANCE: <%= balance %> Coins</div>
+        <div class="buttons">
+            <button onclick="logout()">LOG OUT</button>
+        </div>
+    </header>
     <div class="profile-container">
         <h1>User Profile</h1>
         <p>Username: <%= username %></p>
