@@ -7,6 +7,9 @@ const bcrypt = require('bcrypt');
 const app = express();
 const port = 3000;
 
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
 // Middleware for parsing form data
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -28,7 +31,10 @@ app.get('/', (req, res) => {
   if (!req.session.user) {
     return res.redirect('/login');
   }
-  res.sendFile(path.join(__dirname, 'views', 'index.html'));
+  res.render('index', {
+    username: req.session.user.username,
+    balance: req.session.user.balance
+  });
 });
 
 // Route for the slot machine page
@@ -44,7 +50,10 @@ app.get('/profile', (req, res) => {
   if (!req.session.user) {
     return res.redirect('/login');
   }
-  res.sendFile(path.join(__dirname, 'views', 'profile.html'));
+  res.render('profile', {
+    username: req.session.user.username,
+    balance: req.session.user.balance
+  });
 });
 
 // Route for the login page
@@ -57,7 +66,7 @@ app.post('/login', async (req, res) => {
   const { username, password } = req.body;
   const user = users[username];
   if (user && await bcrypt.compare(password, user.password)) {
-    req.session.user = username;
+    req.session.user = { username, balance: user.balance };
     res.redirect('/');
   } else {
     res.send('<script>alert("Invalid username or password."); window.location.href = "/login";</script>');
@@ -76,8 +85,8 @@ app.post('/register', async (req, res) => {
     return res.send('<script>alert("Username already exists."); window.location.href = "/register";</script>');
   }
   const hashedPassword = await bcrypt.hash(password, 10);
-  users[username] = { username, password: hashedPassword };
-  req.session.user = username;
+  users[username] = { username, password: hashedPassword, balance: 0 };
+  req.session.user = { username, balance: 0 };
   res.redirect('/');
 });
 
