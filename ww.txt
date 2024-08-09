@@ -1,3 +1,5 @@
+<div>BALANCE: <%= balance %> Coins</div>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
