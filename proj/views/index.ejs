@@ -25,9 +25,14 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
 
+        header .welcome {
+            margin-left: 20px; /* Move Welcome text slightly to the right */
+        }
+
         header .buttons {
             display: flex;
             gap: 10px;
+            margin-right: 20px; /* Move buttons slightly to the left */
         }
 
         header button {
@@ -79,7 +84,7 @@
 </head>
 <body>
     <header>
-        <div>Welcome, <%= username %></div>
+        <div class="welcome">Welcome, <%= username %></div>
         <div>BALANCE: <%= balance %> Coins</div>
         <div class="buttons">
             <button onclick="goToProfile()">PROFILE</button>
