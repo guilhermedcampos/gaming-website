@@ -42,7 +42,9 @@ app.get('/slot-machine', (req, res) => {
   if (!req.session.user) {
     return res.redirect('/login');
   }
-  res.sendFile(path.join(__dirname, 'views', 'slot-machine.html'));
+  res.render('slot-machine', {
+    balance: req.session.user.balance
+  });
 });
 
 // Route for the profile page
