@@ -26,11 +26,21 @@
         }
 
         header .welcome {
+            flex: 1;
             margin-left: 20px;
+            text-align: left;
+        }
+
+        header .balance {
+            flex: 1;
+            text-align: center;
+            margin-left: -0.8%; /* Adjust this value to shift the balance left */
         }
 
         header .buttons {
+            flex: 1;
             display: flex;
+            justify-content: flex-end;
             gap: 10px;
             margin-right: 20px;
         }
@@ -172,7 +182,7 @@
 <body>
     <header>
         <div class="welcome">Welcome, <%= username %></div>
-        <div>BALANCE: <%= balance %> Coins</div>
+        <div class="balance">BALANCE: <%= balance %> Coins</div>
         <div class="buttons">
             <button onclick="openDepositModal()">DEPOSIT</button>
             <button onclick="goToProfile()">PROFILE</button>
