@@ -98,6 +98,23 @@ app.get('/logout', (req, res) => {
   res.redirect('/login');
 });
 
+// Route to handle deposit
+app.post('/deposit', (req, res) => {
+  if (!req.session.user) {
+    return res.redirect('/login');
+  }
+
+  const depositAmount = parseInt(req.body.amount, 10);
+
+  if (depositAmount > 0) {
+    // Update the user's balance
+    req.session.user.balance += depositAmount;
+    users[req.session.user.username].balance = req.session.user.balance;
+  }
+
+  res.redirect('/');
+});
+
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
