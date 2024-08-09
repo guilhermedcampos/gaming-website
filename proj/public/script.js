@@ -16,7 +16,7 @@ $(document).ready(function() {
     const spinAudio = new Audio('/audio/wheel-spin.wav');
     const payoutAudio = new Audio('/audio/payout.wav');
 
-    let coinCount = 999999;
+    let coinCount = parseInt(document.getElementById('coinCount').textContent, 10);
     let totalRewards = 0;
     let totalSpent = 0;
     let spinning = false;
