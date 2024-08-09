@@ -6,31 +6,41 @@
     <style>
         body {
             background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
         }
 
-        /* Header styling */
-        .header {
+        header {
+            width: 100%;
+            padding: 20px;
+            background-color: #333;
+            color: white;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 20px;
-            background-color: #333;
-            color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
 
-        .header button {
+        header .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        header button {
             background-color: #555;
             color: white;
             border: none;
             padding: 10px 20px;
+            border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
-            border-radius: 5px;
         }
 
-        .header button:hover {
+        header button:hover {
             background-color: #777;
         }
 
@@ -38,10 +48,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: calc(100vh - 60px); /* Adjust height considering the header */
-        }
-
-        .slot-machine-container {
             width: 200px;
             height: 200px;
             background-color: white;
@@ -49,12 +55,10 @@
             border-radius: 10px;
             cursor: pointer;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            margin-top: 50px;
         }
 
-        .slot-machine-container img {
+        .container img {
             max-width: 100%;
             max-height: 100%;
         }
@@ -64,25 +68,25 @@
             window.location.href = "/slot-machine";
         }
 
-        function navigateToProfile() {
-            window.location.href = "/profile";
+        function logout() {
+            window.location.href = "/logout";
         }
 
-        function logout() {
-            alert('Logging out...');
-            // Add your logout logic here, e.g., redirect to a logout endpoint
+        function goToProfile() {
+            window.location.href = "/profile";
         }
     </script>
 </head>
 <body>
-    <div class="header">
-        <button onclick="logout()">Log out</button>
-        <button onclick="navigateToProfile()">Profile</button>
-    </div>
-    <div class="container">
-        <div class="slot-machine-container" onclick="navigateToSlotMachine()">
-            <img src="/images/slot.png" alt="Slot Machine">
+    <header>
+        <div>Welcome, User</div>
+        <div class="buttons">
+            <button onclick="goToProfile()">PROFILE</button>
+            <button onclick="logout()">LOG OUT</button>
         </div>
+    </header>
+    <div class="container" onclick="navigateToSlotMachine()">
+        <img src="/images/slot.png" alt="Slot Machine">
     </div>
 </body>
 </html>
