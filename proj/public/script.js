@@ -59,18 +59,31 @@ $(document).ready(function() {
 
     function displayPreviewSymbols() {
         const reels = $('.reel .symbols');
-        for (let reelIndex = 0; reelCount; reelIndex++) {
-            let symbolsContainer = $(reels[reelIndex]);
-            let previewSymbolsHtml = previewSymbolsArray[reelIndex].map(symbol => {
+    
+        // Ensure the reel count does not exceed the number of reels available
+        reels.each(function(reelIndex) {
+            const symbolsContainer = $(this); // Use 'this' to get the current reel
+            const previewSymbols = previewSymbolsArray[reelIndex]; // Get the symbols for the current reel
+    
+            if (!previewSymbols) {
+                console.error(`No preview symbols found for reel index: ${reelIndex}`);
+                return; // Skip this iteration if previewSymbolsArray is undefined or null for the current index
+            }
+    
+            // Generate HTML for the symbols in the current reel
+            const previewSymbolsHtml = previewSymbols.map(symbol => {
                 if (symbolImages[symbol]) {
                     return `<div class="symbol"><img src="${symbolImages[symbol]}" alt="${symbol}"></div>`;
                 } else {
                     return `<div class="symbol">${symbol}</div>`;
                 }
             }).join('');
+    
+            // Inject the generated HTML into the current symbols container
             symbolsContainer.html(previewSymbolsHtml);
-        }
+        });
     }
+    
 
     function spin() {
         if ((coinCount < 10 && bonusSpins === 0) || spinning || $('#bonusModal').is(':visible') ||$('#bonusEndModal').is(':visible') ) return;
