@@ -115,6 +115,19 @@ app.post('/deposit', (req, res) => {
   res.redirect('/');
 });
 
+// Handle balance update from slot machine
+app.post('/update-balance', (req, res) => {
+  if (!req.session.user) {
+    return res.redirect('/login');
+  }
+
+  const { balance } = req.body;
+  req.session.user.balance = parseInt(balance, 10);
+  users[req.session.user.username].balance = req.session.user.balance;
+
+  res.sendStatus(200);
+});
+
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });

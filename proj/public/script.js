@@ -29,6 +29,8 @@ $(document).ready(function() {
     let bonusTotalReward = 0;
 
     function updateCoinCount() {
+        // send post to app.js to update the balance
+        $.post('/update-balance', { balance: coinCount });
         $('#coinCount').text(coinCount);
     }
 
