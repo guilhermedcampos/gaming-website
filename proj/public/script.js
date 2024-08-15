@@ -31,7 +31,12 @@ $(document).ready(function() {
     function updateCoinCount() {
         // send post to app.js to update the balance
         $.post('/update-balance', { balance: coinCount });
+
+        // update the balance on the page
         $('#coinCount').text(coinCount);
+
+        // Update the balance in the header
+        $('header div:contains("BALANCE:")').text(`BALANCE: ${coinCount} Coins`);
     }
 
     function updateSessionInfo() {
