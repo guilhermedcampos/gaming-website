@@ -15,7 +15,7 @@
             margin: 0;
             font-family: Arial, sans-serif;
         }
-
+    
         header {
             width: 100%;
             padding: 20px;
@@ -31,12 +31,12 @@
             box-sizing: border-box;
             z-index: 1000;
         }
-
+    
         header .buttons {
             display: flex;
             gap: 10px;
         }
-
+    
         header button {
             background-color: #555;
             color: white;
@@ -47,11 +47,11 @@
             font-size: 16px;
             box-sizing: border-box;
         }
-
+    
         header button:hover {
             background-color: #777;
         }
-
+    
         .slot-machine-container {
             display: flex;
             flex-direction: column;
@@ -67,15 +67,17 @@
             position: relative;
             overflow: hidden;
             margin-top: 120px; /* Adjusted to ensure header content is visible */
+            transform: scale(1.25); /* Scale the container */
+            transform-origin: top center; /* Ensure scaling happens from the top center */
         }
-
+    
         .slot-machine {
             display: flex;
             justify-content: center;
             width: 100%;
             margin-bottom: 10px;
         }
-
+    
         .reel {
             display: inline-block;
             background-image: url("/images/reels-background.png");
@@ -85,13 +87,13 @@
             overflow: hidden;
             position: relative;
         }
-
+    
         .symbols {
             position: absolute;
             top: 0;
             width: 100%;
         }
-
+    
         .symbol {
             font-size: 48px;
             height: 150px;
@@ -99,12 +101,12 @@
             text-align: center;
             position: relative;
         }
-
+    
         .symbol img {
             max-width: 100%;
             max-height: 100%;
         }
-
+    
         #totalRewards, #totalSpent {
             text-align: center;
             margin: 5px 0;
@@ -116,7 +118,7 @@
                 1px -1px 2px rgba(0, 0, 0, 0.1),
                 -1px 1px 2px rgba(0, 0, 0, 0.1);
         }
-
+    
         .symbol.winning-line::before {
             content: '';
             position: absolute;
@@ -127,7 +129,7 @@
             background-color: green;
             transform: translateX(-50%);
         }
-
+    
         .symbol.winning-diagonal-asc::before,
         .symbol.winning-diagonal-desc::before {
             content: '';
@@ -139,43 +141,43 @@
             background-color: green;
             transform-origin: center;
         }
-
+    
         .symbol.winning-diagonal-asc::before {
             transform: translate(-50%, -50%) rotate(-45deg);
         }
-
+    
         .symbol.winning-diagonal-desc::before {
             transform: translate(-50%, -50%) rotate(45deg);
         }
-
+    
         #spinButton {
             display: block;
             margin: 10px auto;
         }
-
+    
         .balance {
             text-align: left;
             margin-left: 10px;
             font-size: 20px;
             color: black;
         }
-
+    
         #coinCount {
             font-weight: normal;
         }
-
+    
         #totalRewards, #totalSpent {
             text-align: center;
             margin: 5px 0;
         }
-
+    
         .session-info {
             display: flex;
             justify-content: space-between;
             width: 100%;
             margin-bottom: 5px;
         }
-
+    
         #rewardMessage {
             text-align: center;
             color: green;
@@ -194,7 +196,7 @@
                 1px -1px 2px rgba(0, 0, 0, 0.7),
                 -1px 1px 2px rgba(0, 0, 0, 0.7);
         }
-
+    
         .modal {
             display: none;
             position: fixed;
@@ -210,22 +212,22 @@
             padding-top: 50px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
-
+    
         .modal-content {
             margin: auto;
         }
-
+    
         .modal-content p {
             font-size: 24px;
             margin-bottom: 20px;
         }
-
+    
         .modal-content button {
             font-size: 18px;
             padding: 10px 20px;
             cursor: pointer;
         }
-
+    
         #startBonusButton {
             margin-top: 20px;
             padding: 10px 20px;
@@ -235,11 +237,11 @@
             cursor: pointer;
             font-size: 16px;
         }
-
+    
         #startBonusButton:hover {
             background-color: #45a049;
         }
-
+    
         .spins-left {
             margin-left: 20px;
             font-size: 18px;
@@ -248,6 +250,7 @@
             display: none;
         }
     </style>
+    
     <script>
         function logout() {
             window.location.href = "/logout";
