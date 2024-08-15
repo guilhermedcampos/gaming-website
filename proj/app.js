@@ -5,7 +5,8 @@ const session = require('express-session');
 const bcrypt = require('bcrypt');
 
 const app = express();
-const port = 3000;
+// Use the port provided by AWS or default to 3000 if running locally
+const port = process.env.PORT || 3000;
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
