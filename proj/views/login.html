@@ -5,7 +5,9 @@
     <title>Login</title>
     <style>
         body {
-            background-color: #f0f0f0;
+            background-image: url('/images/web-background.png');
+            background-size: cover;
+            background-position: center;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -20,6 +22,7 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
+            width: 600px; /* Set a fixed width to control the input field size */
         }
 
         h1 {
@@ -27,17 +30,19 @@
         }
 
         input[type="text"], input[type="password"] {
-            width: 100%;
+            width: calc(100% - 20px); /* Adjust width to account for margins */
             padding: 10px;
-            margin: 10px 0;
+            margin: 10px 10px 10px 10px; /* Equal margin on all sides */
             border-radius: 5px;
             border: 1px solid #ccc;
             font-size: 16px;
+            box-sizing: border-box; /* Ensure padding and borders are included in the width */
         }
 
         button {
-            width: 100%;
+            width: calc(100% - 20px); /* Adjust button width similarly */
             padding: 10px;
+            margin: 10px 10px 0px 10px; /* Add equal margin on the sides */
             background-color: #333;
             color: white;
             border: none;
