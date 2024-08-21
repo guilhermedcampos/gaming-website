@@ -28,5 +28,5 @@ export DB_USER='your_rds_username'
 export DB_HOST='your_rds_host'
 export DB_NAME='your_rds_dbname'
 export DB_PASSWORD='your_rds_password'
-export DB_PORT=5432  
+export DB_PORT=5432  s
 */
