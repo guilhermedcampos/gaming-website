@@ -71,3 +71,19 @@ Key features include:
 
 For detailed deployment steps, refer to the [AWS Elastic Beanstalk documentation](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/Welcome.html).
 
+## Postgres 
+-- Create user 'casino' with password 'casino'
+CREATE USER casino WITH PASSWORD 'casino';
+
+-- Create the database 'casinogame'
+CREATE DATABASE casinogame;
+
+-- Grant all privileges on the 'casinogame' database to the 'casino' user
+GRANT ALL PRIVILEGES ON DATABASE casinogame TO casino;
+
+-- Optional: Make 'casino' the owner of the database
+ALTER DATABASE casinogame OWNER TO casino;
+
+
+-- psql -U casino -d casinogame -h localhost
+
