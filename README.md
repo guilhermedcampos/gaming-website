@@ -72,7 +72,22 @@ Key features include:
 For detailed deployment steps, refer to the [AWS Elastic Beanstalk documentation](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/Welcome.html).
 
 ## Postgres 
--- Create user 'casino' with password 'casino'
+
+### Connecting to PostgreSQL (`psql`)
+
+To connect to PostgreSQL using the `psql` command-line interface, open your terminal and run:
+
+```bash
+sudo -u postgres psql
+```
+
+### Create the USER and DATABASE instances
+
+In the psql command-line, run the following:
+
+
+```psql
+Create user 'casino' with password 'casino':
 CREATE USER casino WITH PASSWORD 'casino';
 
 -- Create the database 'casinogame'
@@ -81,9 +96,32 @@ CREATE DATABASE casinogame;
 -- Grant all privileges on the 'casinogame' database to the 'casino' user
 GRANT ALL PRIVILEGES ON DATABASE casinogame TO casino;
 
--- Optional: Make 'casino' the owner of the database
+-- Make 'casino' the owner of the database
 ALTER DATABASE casinogame OWNER TO casino;
+```
 
+Now the users table can be created by connecting to the database and running:
 
--- psql -U casino -d casinogame -h localhost
+bash```
+\c casinogame
+```
+
+```
+CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    balance INT DEFAULT 0
+);
+
+CREATE UNIQUE INDEX idx_username ON users (username);
+```
+
+Ensure the table is properly set up by running: 
+
+```
+\d users
+```
+
+You now have PostgreSQL set up with a user, a database, and a table ready for use.
 
