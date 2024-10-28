@@ -315,11 +315,8 @@ $(document).ready(function() {
             let rowIndex = isDescending ? startRow + i : startRow - i;
             let symbolElement = $(`.reel:eq(${i}) .symbols .symbol`).eq(rowIndex + 20);
             let diagonalClass = isDescending ? 'winning-diagonal-desc' : 'winning-diagonal-asc';
-            if (i === 0) {
-                symbolElement.addClass(`${diagonalClass}-v2`);
-            } else {
-                symbolElement.addClass(diagonalClass);
-            }
+            symbolElement.addClass(`${diagonalClass}-v2`);
+            symbolElement.addClass(diagonalClass);
         }
     }
 
