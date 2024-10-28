@@ -41,7 +41,7 @@ Key features include:
 
 - **AWS Elastic Beanstalk**: A service for deploying and scaling web applications. It handles infrastructure management and scaling, allowing developers to focus on writing code.
 
-### How to Deploy
+#### How to Deploy
 
 1. **Set Up AWS CLI and Elastic Beanstalk CLI**:
    - Configure AWS CLI with your credentials:
@@ -65,11 +65,15 @@ Key features include:
      eb deploy
      ```
 
-3. **Monitor and Manage**:
-   - Use the Elastic Beanstalk console to monitor application health and view logs.
-   - Adjust environment settings as needed.
-
 For detailed deployment steps, refer to the [AWS Elastic Beanstalk documentation](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/Welcome.html).
+
+### Running the website with Node.js
+
+If connecting to AWS isn't a priority, simply run the website on localhost with the following command:
+
+```
+node web_casino/app.js
+```
 
 ## Postgres 
 
@@ -102,7 +106,7 @@ ALTER DATABASE casinogame OWNER TO casino;
 
 Now the users table can be created by connecting to the database and running:
 
-bash```
+```bash
 \c casinogame
 ```
 
