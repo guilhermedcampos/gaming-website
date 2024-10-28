@@ -303,12 +303,10 @@ $(document).ready(function() {
 
     function highlightWinningLine(row, count) {
         for (let col = 0; col < count; col++) {
+            console.log("Adding class 'winning-line-v2' to row and column:", row, col);
             let symbolElement = $(`.reel:eq(${col}) .symbols .symbol`).eq(row + 20);
-            if (col === 0) {
-                symbolElement.addClass('winning-line-v2');
-            } else {
-                symbolElement.addClass('winning-line');
-            }
+            symbolElement.addClass('winning-line-v2');
+            symbolElement.addClass('winning-line');
         }
     }
 
