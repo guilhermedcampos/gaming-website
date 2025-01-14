@@ -1,4 +1,17 @@
 $(document).ready(function() {
+    // Play background audio and loop it
+    const backgroundAudio = new Audio('/audio/background.wav');
+    backgroundAudio.loop = true; // Enable looping
+    backgroundAudio.muted = true; // Mute the audio by default
+    backgroundAudio.volume = 0.4; // Set volume to 40%
+
+    let firstSpinOccurred = false; // Flag to track if the first spin has occurred
+
+    
+    backgroundAudio.play().catch((err) => {
+        console.log("Audio autoplay failed. User interaction might be required.", err);
+    });
+
     const symbols = ['J', 'K', 'Q', 'A', '10', 'SYM1', 'SYM2', 'SYM3', 'SYM4', 'BONUS'];
     const symbolImages = {
         'J': '/symbols/J.png',
@@ -94,6 +107,15 @@ $(document).ready(function() {
 
     function spin() {
         if ((coinCount < 10 && bonusSpins === 0) || spinning || $('#bonusModal').is(':visible') ||$('#bonusEndModal').is(':visible') ) return;
+
+        if (!firstSpinOccurred) {
+            // First spin detected
+            firstSpinOccurred = true;
+            backgroundAudio.muted = false; // Unmute the audio
+            backgroundAudio.play().catch((err) => {
+                console.log("Audio play failed:", err);
+            });
+        }
 
         if (bonusSpins === 0) {
             coinCount -= 10;
