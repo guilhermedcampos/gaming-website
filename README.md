@@ -15,7 +15,7 @@ Building a casino website provides:
 - **Complex Features**: Handling user authentication, session management, and real-time updates can be a challenge, showcasing the robustness of Node.js and Express.
 - **Real-World Use Case**: Simulates a real-world application where users interact with the system, make transactions, and receive feedback, making it a comprehensive example of web application development.
 
-### Prerequisites
+## Prerequisites
 
 Before you begin, ensure you have the following installed and configured:
 - **Node.js** (v14.x or later): For running the application server.
@@ -23,7 +23,7 @@ Before you begin, ensure you have the following installed and configured:
 - **AWS CLI**: To interact with AWS services from the command line.
 - **Elastic Beanstalk CLI**: For deploying applications to AWS Elastic Beanstalk.
 
-### Authentication
+## Authentication
 
 The application uses session-based authentication to manage user sessions. Users can:
 - **Register**: Create a new account with a username and password.
@@ -32,7 +32,7 @@ The application uses session-based authentication to manage user sessions. Users
 
 Authentication is managed using `express-session` and `bcrypt` for password hashing.
 
-### Node.js and Express
+## Node.js and Express
 
 - **Node.js**: A JavaScript runtime for building scalable server-side applications.
 - **Express**: A web application framework for Node.js that simplifies routing and middleware management.
@@ -41,11 +41,11 @@ Key features include:
 - **Routing**: Handles different routes for home, slot machine, profile, and authentication pages.
 - **Middleware**: Manages form data parsing, session handling, and static file serving.
 
-### AWS
+## AWS
 
 - **AWS Elastic Beanstalk**: A service for deploying and scaling web applications. It handles infrastructure management and scaling, allowing developers to focus on writing code.
 
-#### How to Deploy
+## How to Deploy
 
 1. **Set Up AWS CLI and Elastic Beanstalk CLI**:
    - Configure AWS CLI with your credentials:
@@ -71,7 +71,7 @@ Key features include:
 
 For detailed deployment steps, refer to the [AWS Elastic Beanstalk documentation](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/Welcome.html).
 
-### Running the website with Node.js
+## Running the website with Node.js
 
 If connecting to AWS isn't a priority, simply run the website on localhost with the following command:
 
