@@ -1,16 +1,16 @@
-# CasinoWebApp
+# GamingWebApp
 
-CasinoWebApp is a web application built with Node.js and Express, designed to simulate a casino slot machine game. This project provides a practical example of a full-stack application using modern web technologies and cloud services, specifically AWS Elastic Beanstalk.
+GamingWebApp is a web application built with Node.js and Express, designed to simulate a gaming website. This project provides a practical example of a full-stack application using modern web technologies and cloud services, specifically AWS Elastic Beanstalk.
 
 ## Why?
 
-I created this project out of curiosity and as an opportunity to explore various technologies and concepts, including modern web development with Node.js and Express, database integration using PostgreSQL, and deploying scalable applications with AWS Elastic Beanstalk. It also allowed me to test dynamic content updates and implement features like authentication, session management, and balance tracking — all while building a prototype for small web casino (with a single game, at least just for now).
+I created this project out of curiosity and as an opportunity to explore various technologies and concepts, including modern web development with Node.js and Express, database integration using PostgreSQL, and deploying scalable applications with AWS Elastic Beanstalk. It also allowed me to test dynamic content updates and implement features like authentication, session management, and balance tracking — all while building a prototype for small web gaming platform (with a single game, at least just for now).
 
 ## Getting Started
 
-This project is an excellent way to showcase a Node.js and Express application integrated with AWS. The casino slot machine theme is engaging and allows for a variety of features and functionalities to be implemented, such as user authentication, session management, and dynamic content updates.
+This project is an excellent way to showcase a Node.js and Express application integrated with AWS. The gaming platform is engaging and allows for a variety of features and functionalities to be implemented, such as user authentication, session management, and dynamic content updates.
 
-Building a casino website provides:
+Building a gaming platform provides:
 - **Engaging User Experience**: A game-based application is interactive and demonstrates dynamic content updates and state management.
 - **Complex Features**: Handling user authentication, session management, and real-time updates can be a challenge, showcasing the robustness of Node.js and Express.
 - **Real-World Use Case**: Simulates a real-world application where users interact with the system, make transactions, and receive feedback, making it a comprehensive example of web application development.
@@ -135,5 +135,5 @@ You now have PostgreSQL set up with a user, a database, and a table ready for us
 
 ## Conclusion and Future Updates
 
-Currently, the web casino only features one game. While adding more games is something I may consider in the future, the primary focus of this project was to explore backend development, web technologies, and deployment rather than to create a complex or fully polished slot game. As such, there are minor visual bugs in the combo-winning lines, which were not a priority to fix given the scope of the project.
+Currently, the web game platform only features one game. While adding more games is something I may consider in the future, the primary focus of this project was to explore backend development, web technologies, and deployment rather than to create a complex or fully polished slot game. As such, there are minor visual bugs in the combo-winning lines, which were not a priority to fix given the scope of the project.
 
